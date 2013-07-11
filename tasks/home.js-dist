@@ -1,0 +1,11 @@
+module.exports = {
+    config: {
+        urn: 'PATH/TO/RESOURCE'
+        options: {
+            viewportSize: {width: 1440, height: 900}
+        }
+    },
+    execute: function(){
+        this.save('home');
+    }
+};
