@@ -1,0 +1,15 @@
+module.exports = {
+    options: {
+        verbose: false,
+        pageSettings: {
+            loadImages: true
+        }
+    },
+    environments: {
+        candidate: 'CANDIDATE_SITE_URL',
+        current: 'CURRENT_SITE_URL'
+    },
+    output: {
+        extension: 'png'
+    }
+};
