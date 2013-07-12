@@ -2,23 +2,23 @@
 
 >A simple set of tools for visually comparing web pages built on top of
 ><a href="http://casperjs.org/" target="_blank">Casperjs</a> and ImageMagick
->and ImageMagick <a href="http://www.imagemagick.org/script/compare.php" target="_blank">compare</a>
+><a href="http://www.imagemagick.org/script/compare.php" target="_blank">compare</a> tool.
 
 ## Table of Contents
-* [What does it do?](#What-does-it-do)
-* [Why does it do it?](#Why-does-it-do-it)
+* [How it works](#How-it-works)
+* [Why to use it](#Why-to-use-it)
 * [Dependencies](#Dependencies)
 * [Usage](#Usage)
 * [Reports](#Reports)
 * [Mocks](#Mocks)
 
-## What does it do?
+## How it works
 Basically, Pediff executes a set of user defined tasks over two different versions of a website,
 takes screenshots at desired moments and scans the output for differences.
 Then it generates human-friendly report containing all the inconsistencies ordered by
 relative number of differences.
 
-## Why does it do it?
+## Why to use it
 Pediff enables developers to detect entire class of visual problems invisible to
 classic unit tests and only occasionally catchable by manual review. For more details on the topic
 see this great talk by Brett Slatkin at Air Mozilla:
