@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Generating html report..."
 cd diff/
-differentCount=$(ls *.png | sort -gr | grep -E '^(1|0{2,})' | wc -l)
+differentCount=$(ls *.png | sort -gr | grep -P '^([1-9]|0{2,})' | wc -l)
 html="<!DOCTYPE html>
 <html>
     <head>
@@ -12,7 +12,7 @@ html="<!DOCTYPE html>
             body {background-color: #eeeeee}
             a {cursor: pointer}
             a:hover, a:focus, a:active {outline: none}
-            #pediff {color: #000} 
+            #pediff {color: #000}
             #pediff:hover, #pediff:focus, #pediff:active {text-decoration: none}
             ul {list-style: none; margin: 0}
             h4 small {margin-left: .5em}
@@ -24,7 +24,7 @@ html="<!DOCTYPE html>
     <body>
         <div class=\"container\">
             <div class=\"page-header\">
-                <h1><a href=\"#\" id=\"pediff\">pediff</a><small>report</small></h1> 
+                <h1><a href=\"#\" id=\"pediff\">pediff</a><small>report</small></h1>
                 <h6 class=\"closer\">`date +'%Y-%m-%d %H:%M:%S'`</h6>
                 <h6 class=\"closer\">${1} screenshots taken & compared in ${2} seconds. ${differentCount} images differ.</h6>
                 <p><strong>USAGE: </strong>Left click on the images to toggle between screenshots of current
@@ -33,7 +33,7 @@ html="<!DOCTYPE html>
             <ul>"
 # iterate through the files ordered descendingly by the relative number of differences > 0
 fileNumber=1
-for file in `ls *.png | sort -gr | grep -E '^(1|0{2,})'`;
+for file in `ls *.png | sort -gr | grep -P '^([1-9]|0{2,})'`;
 do
     html="${html}<li><h4><a href=\"#${file}\" id=\"${file}\">${file}</a><small>diff</small>
     <span class=\"pull-right\">${fileNumber} / ${differentCount}</span></h4>
@@ -44,7 +44,7 @@ html="${html}</ul></div>
         <script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-1.10.0.min.js\"></script>
         <script type=\"text/javascript\">
             function flip(object, newState){
-                var from = object.attr('src').split('/')[0], src = null, header = null; 
+                var from = object.attr('src').split('/')[0], src = null, header = null;
                 console.log(from);
                 if (newState === 'toggle') {
                     src = object.attr('src').replace(from, (from === 'current')?'candidate':'current'),
