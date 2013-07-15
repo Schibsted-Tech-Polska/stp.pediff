@@ -1,5 +1,11 @@
 {
-  "version": "master",
-  "name": "pediff",
-  "description": "pediff"
+    "name": "stp.pediff",
+    "version": "0.1.0",
+    "description": "A simple set of tools for visually comparing web pages built on top of Casperjs and ImageMagick compare tool.",
+    "repository" :
+    {
+        "type" : "git",
+        "url" : "https://github.com/Schibsted-Tech-Polska/stp.pediff.git"
+    }
+
 }
