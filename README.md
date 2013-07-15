@@ -47,11 +47,10 @@ Example above is using Norwegian and Swedish version of Google homepage as a bas
     ```javascript
     module.exports = {
         config: {
-            urn: 'PATH/TO/RESOURCE'
+            path: 'PATH/TO/RESOURCE',
             options: {
                 viewportSize: {width: 1440, height: 900}
-            },
-            mocks: {}
+            }
         },
         execute: function(){
             this.save('home');
