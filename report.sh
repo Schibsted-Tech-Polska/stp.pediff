@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Generating html report..."
 cd diff/
-differentCount=$(ls *.png | sort -gr | grep -P '^([1-9]|0{2,})' | wc -l)
+differentCount=$(ls *.png | sort -gr | egrep '^([1-9]|0{2,})' | wc -l)
 html="<!DOCTYPE html>
 <html>
     <head>
@@ -33,7 +33,7 @@ html="<!DOCTYPE html>
             <ul>"
 # iterate through the files ordered descendingly by the relative number of differences > 0
 fileNumber=1
-for file in `ls *.png | sort -gr | grep -P '^([1-9]|0{2,})'`;
+for file in `ls *.png | sort -gr | egrep '^([1-9]|0{2,})'`;
 do
     html="${html}<li><h4><a href=\"#${file}\" id=\"${file}\">${file}</a><small>diff</small>
     <span class=\"pull-right\">${fileNumber} / ${differentCount}</span></h4>
