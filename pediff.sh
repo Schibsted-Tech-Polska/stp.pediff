@@ -24,7 +24,7 @@ for file in *.png;
 do
     # Assign absolute number of pixels that are different to a variable
     ae=$(compare -dissimilarity-threshold 1 -metric AE ${file} ../current/${file} ../diff/${file} 2>&1)
-    fsize=$(echo ${file} | egrep -o '\d+x\d+' | tr 'x' '*' | bc)
+    fsize=$(echo ${file} | grep -Po '\d+x\d+' | tr 'x' '*' | bc)
     # Add relative error factor to the name of the files for sorting
     newfname=$(echo "$ae/$fsize" | sed -e 's/[eE]+*/\*10\^/' | bc -l | cut -c -9 | tr -d '.')_${file}
     mv ../diff/${file} ../diff/${newfname}
