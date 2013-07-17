@@ -25,13 +25,8 @@ Pediff.prototype.setEnvironment = function(environment){
  * @param {Object} task
  */
 Pediff.prototype.init = function(task){
-    this.config = require('./config');
-    for (var prop in task.config) {
-        this.config[prop] = task.config[prop];
-    }
-    for (var prop in this.config.options){
-        this.options[prop] = this.config.options[prop];
-    }
+    this.config = utils.mergeObjects(require('./config'), task.config);
+    utils.mergeObjects(this.options, this.config.options);
     this.options.onResourceRequested = this.setMocks;
     this.execute = task.execute;
 };
