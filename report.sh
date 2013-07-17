@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Generating html report..."
 cd diff/
-differentCount=$(ls *.png | sort -gr | grep -P '^([0-9]{2,})' | wc -l)
+differentCount=$(ls *.png | sort -gr | grep -P '^(1|[0-9]{2,})' | wc -l)
 html="<!DOCTYPE html>
 <html>
     <head>
