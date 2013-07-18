@@ -43,10 +43,26 @@ Pediff.prototype.init = function(task){
 Pediff.prototype.setMocks = function(pd, requestData, networkRequest){
     for (var key in this.config.mocks){
         if (requestData.url.split('/').pop() === key){
-            networkRequest.changeUrl('./mocks/' + this.config.mocks[key]); 
+            networkRequest.changeUrl('./mocks/' + this.config.mocks[key]);
             break;
         }
     }
+};
+
+/**
+ * Inject all custom CSS rules into head
+ * @param {Object} pd Pediff instance
+ */
+Pediff.prototype.preExecute = function(pd){
+    var styleString = '<style>';
+    for (var key in this.config.css){
+        styleString += key + ' { ' + this.config.css[key] + ' } ';
+    }
+    styleString += '</style>';
+
+    this.evaluate(function(styleString) {
+        $('head').append($(styleString));
+    }, styleString);
 };
 
 /**

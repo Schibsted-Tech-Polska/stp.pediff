@@ -9,6 +9,9 @@ if (args.length === 0){
 pediff.init(require('./tasks/' + args.pop()));
 pediff.start().each(Object.keys(pediff.config.environments), function(pd, environment){
     pd.then(function(){ this.setEnvironment(environment); });
-    pd.thenOpen(this.config.environments[environment] + (this.config.path || ''), this.execute);
+    pd.thenOpen(this.config.environments[environment] + (this.config.path || ''), function() {
+        this.preExecute();
+        this.execute();
+    });
 });
 pediff.run();
