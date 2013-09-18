@@ -301,7 +301,7 @@ PediffReport.prototype = {
                             self.state.loading = false;
                         }
                         $('.images .'+opts.env+' .actions .download').attr('href',src);
-                        $('.images .'+opts.env+' .actions .view').attr('href',self.options.environmentsPaths[opts.env]+opts.path);
+                        $('.images .'+opts.env+' .actions .view').attr('href',self.options.environmentsPaths[opts.env]+((typeof(opts.path) !== 'undefined') ? opts.path : ''));
                         opts.img.attr('src',"data:image/jpeg;base64," + base64Encode(xhr.responseText));
                     }, false);
                 }
