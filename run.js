@@ -15,9 +15,13 @@ pediff.start().each(Object.keys(pediff.config.environments), function(pd, enviro
 
         self.then(function(){ this.setViewportSize(viewport); });
         self.then(function(){ this.setEnvironment(environment); });
-        self.thenOpen(this.config.environments[environment] + (this.config.path || ''), function() {
-            this.preExecute();
-            this.execute();
+        self.then(function(){
+            this.viewport(viewport.width, viewport.height, function(){
+                this.thenOpen(this.config.environments[environment] + (this.config.path || ''), function() {
+                    this.preExecute();
+                    this.execute();
+                });
+            });
         });
     })
 

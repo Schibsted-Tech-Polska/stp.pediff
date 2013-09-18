@@ -85,25 +85,21 @@ Pediff.prototype.preExecute = function(pd){
 Pediff.prototype.save = function(filename, selector){
     if (this.options.verbose){
         console.log('[' + this.environment + '@' + this.viewportSize.width + 'x' +
-                this.viewportSize.height + '] ' + filename + '.' + this.config.output.extension);
+            this.viewportSize.height + '] ' + filename + '.' + this.config.output.extension);
     }
 
-    this.viewport(this.viewportSize.width, this.viewportSize.height, function(){
+    if (selector === undefined){
+        this.capture(this.environment + '/' + this.viewportSize.width + 'x' +
+            this.viewportSize.height + '_' + filename  + '.' + this.config.output.extension,
+            {top: 0, left: 0, width: this.viewportSize.width,
+                height: this.viewportSize.height});
+    } else {
+        this.captureSelector(this.environment + '/' + filename  + '.' + this.config.output.extension,
+            selector);
+    }
 
-        if (selector === undefined){
-            this.capture(this.environment + '/' + this.viewportSize.width + 'x' +
-                this.viewportSize.height + '_' + filename  + '.' + this.config.output.extension,
-                {top: 0, left: 0, width: this.viewportSize.width,
-                    height: this.viewportSize.height});
-        } else {
-            this.captureSelector(this.environment + '/' + filename  + '.' + this.config.output.extension,
-                selector);
-        }
-
-        this.savePath(filename);
-        this.captureMedia(filename);
-    });
-
+    this.savePath(filename);
+    this.captureMedia(filename);
 };
 
 /**

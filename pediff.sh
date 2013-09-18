@@ -43,5 +43,4 @@ cd ../
 echo "Generating report..."
 casperjs report.js
 casperjs coverage.js
-rm -f paths.json
 echo "Pediff has taken and compared ${filecount} screenshots in ${runtime} seconds."
