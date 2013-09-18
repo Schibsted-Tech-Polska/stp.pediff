@@ -19,6 +19,15 @@ Pediff.prototype.setEnvironment = function(environment){
 };
 
 /**
+ * Set the viewport size that the app is currently working with.
+ *
+ * @param {string} viewportSize
+ */
+Pediff.prototype.setViewportSize = function(viewportSize){
+    this.viewportSize = viewportSize;
+};
+
+/**
  * Merge global config object from /config directory with current task specific options, set up
  * necessary properties.
  *
@@ -75,18 +84,77 @@ Pediff.prototype.preExecute = function(pd){
  */
 Pediff.prototype.save = function(filename, selector){
     if (this.options.verbose){
-        console.log('[' + this.environment + '@' + this.options.viewportSize.width + 'x' +
-                this.options.viewportSize.height + '] ' + filename + '.' + this.config.output.extension);
+        console.log('[' + this.environment + '@' + this.viewportSize.width + 'x' +
+                this.viewportSize.height + '] ' + filename + '.' + this.config.output.extension);
     }
-    if (selector === undefined){
-        this.capture(this.environment + '/' + this.options.viewportSize.width + 'x' +
-                this.options.viewportSize.height + '_' + filename  + '.' + this.config.output.extension,
-                {top: 0, left: 0, width: this.options.viewportSize.width,
-                    height: this.options.viewportSize.height});
-    } else {
-        this.captureSelector(this.environment + '/' + filename  + '.' + this.config.output.extension,
+
+    this.viewport(this.viewportSize.width, this.viewportSize.height, function(){
+
+        if (selector === undefined){
+            this.capture(this.environment + '/' + this.viewportSize.width + 'x' +
+                this.viewportSize.height + '_' + filename  + '.' + this.config.output.extension,
+                {top: 0, left: 0, width: this.viewportSize.width,
+                    height: this.viewportSize.height});
+        } else {
+            this.captureSelector(this.environment + '/' + filename  + '.' + this.config.output.extension,
                 selector);
-    }
+        }
+
+        this.savePath(filename);
+        this.captureMedia(filename);
+    });
+
 };
+
+/**
+ * Helper method allowing to use current stylesheet sections designed for specific media (such as print, handheld, ...)
+ * as the default stylesheet. Used internally.
+ * @param {string} filename name of the file to be written
+ */
+Pediff.prototype.captureMedia = function(filename){
+    for(var media in this.config.media) {
+        if(this.config.media[media] && typeof(this['media_'+media+'_'+this.environment]) == 'undefined') {
+            this['media_'+media+'_'+this.environment] = true;
+
+            this.viewport(this.config.media[media].width, this.config.media[media].height, function(){
+
+                var data = this.evaluate(function() {
+                    var $stylesheet = $('link[rel="stylesheet"][href*="main"]');
+                    var url = $stylesheet.attr('href');
+                    $stylesheet.remove();
+                    return __utils__.sendAJAX('http:'+url, 'GET', null, false);
+                });
+                var styleString = '<style>'+data.replace('@media '+media,'@media screen')+'</style>';
+
+                this.evaluate(function(styleString) {
+                    $('head').append($(styleString));
+                }, styleString);
+
+                this.capture(this.environment + '/'  + this.config.media[media].width + 'x' +
+                    this.config.media[media].height + '_' + media + '_' + filename  + '.' + this.config.output.extension,
+                    {top: 0, left: 0, width: this.config.media[media].width,
+                        height: this.config.media[media].height});
+
+            });
+        }
+    }
+}
+
+/**
+ * Helper method for saving the path of current task, for later inclusion in the report. Used internally.
+ * @param {string} filename name of the file to be written
+ */
+Pediff.prototype.savePath = function(filename){
+    var fs = require('fs');
+    try {
+        var paths = eval("("+fs.read('paths.json')+')');
+    } catch(e) {
+        paths = {};
+    }
+
+    paths[filename] = this.config.path || '';
+
+    fs.write('paths.json',JSON.stringify(paths),'w');
+}
 
 module.exports = Pediff;

@@ -3,6 +3,10 @@ module.exports = {
         verbose: false,
         pageSettings: {
             loadImages: true
+        },
+        viewportSize: [],
+        media: {
+            print: false
         }
     },
     environments: {
@@ -11,5 +15,15 @@ module.exports = {
     },
     output: {
         extension: 'png'
+    },
+    coverage: {
+        routes: 'routes.json',
+        skipOptional: true,
+        exceptions: [
+            {
+                route: '',
+                mapTo: ''
+            }
+        ]
     }
 };

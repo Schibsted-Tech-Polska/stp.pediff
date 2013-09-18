@@ -8,10 +8,19 @@ if (args.length === 0){
 /* Run pediff rendering suit */
 pediff.init(require('./tasks/' + args.pop()));
 pediff.start().each(Object.keys(pediff.config.environments), function(pd, environment){
-    pd.then(function(){ this.setEnvironment(environment); });
-    pd.thenOpen(this.config.environments[environment] + (this.config.path || ''), function() {
-        this.preExecute();
-        this.execute();
-    });
+
+    /* Iterate through all defined viewport sizes */
+    var viewports = pd.config.options.viewportSize;
+    pd.each(viewports, function(self, viewport){
+
+        self.then(function(){ this.setViewportSize(viewport); });
+        self.then(function(){ this.setEnvironment(environment); });
+        self.thenOpen(this.config.environments[environment] + (this.config.path || ''), function() {
+            this.preExecute();
+            this.execute();
+        });
+    })
+
+
 });
 pediff.run();

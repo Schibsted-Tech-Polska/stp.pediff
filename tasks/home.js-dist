@@ -2,7 +2,10 @@ module.exports = {
     config: {
         path: 'PATH/TO/RESOURCE'
         options: {
-            viewportSize: {width: 1440, height: 900}
+            viewportSize: [{width: 1440, height: 900}]
+        },
+        media: {
+            print: false
         }
     },
     execute: function(){

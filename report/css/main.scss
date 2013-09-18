@@ -1,0 +1,273 @@
+%clearfix {
+    &:before,
+    &:after {
+        content: " "; /* 1 */
+        display: table; /* 2 */
+    }
+
+    &:after {
+        clear: both;
+    }
+}
+
+$green: #99CC00;
+$red: #FF3333;
+
+@import 'icons';
+
+html {
+    height: 100%;
+}
+body {
+    padding: 20px 0;
+    min-width: 728px;
+    position: relative;
+    height: 100%;
+
+    > .container {
+        width: auto;
+        max-width: none;
+
+        .panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            bottom: 20px;
+            -webkit-transition: left 0.30s ease-in-out;
+
+            .panel-body {
+                position: absolute;
+                top: 50px;
+                left: 0;
+                bottom: 0;
+                right: 0;
+                overflow: auto;
+            }
+
+            .panel-heading .variants {
+                .badge {
+                    @for $i from 0 through 10 {
+                        &[data-level="#{$i*10}"] { background-color: mix($red,$green,$i*10%) }
+                    }
+                }
+            }
+        }
+    }
+
+    aside + .container .panel {
+        left: 269px;
+    }
+
+    aside.closed + .container .panel {
+        left: 76px;
+    }
+}
+
+aside {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    bottom: 20px;
+    width: 250px;
+    -webkit-transition: width 0.30s ease-in-out;
+    overflow: hidden;
+
+    .panel-body,
+    .panel-footer {
+        width: 250px;
+    }
+
+    footer.panel-footer {
+        position: absolute;
+        bottom: 62px;
+        left: 0;
+    }
+
+    div.panel-footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+
+        a {
+            padding: 10px 15px;
+            display: block;
+            &:hover {
+                background: #E6E6E6;
+                text-decoration: none;
+            }
+            &.active {
+                color: #FFF;
+                background-color: #007FFF;
+            }
+        }
+    }
+
+    .panel-body {
+        position: absolute;
+        top: 50px;
+        bottom: 110px;
+        left: 0;
+        right: 0;
+        overflow: auto;
+    }
+
+    .panel-heading {
+        position: relative;
+        min-height: 50px;
+        .btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+    }
+
+    &.closed {
+        width: 57px;
+        border-bottom: 0;
+        bottom: auto;
+
+        .panel-heading {
+            h3 {
+                display: none;
+            }
+
+            .btn i:before {
+                content: "\f0da";
+            }
+        }
+        .panel-body,
+        .panel-footer {
+            display: none;
+        }
+    }
+
+    .nav li a {
+        @for $i from 0 through 10 {
+            &.level-#{$i*10} .badge { background: mix($red,$green,$i*10%) }
+        }
+
+        .badge {
+            color: #fff!important;
+        }
+    }
+}
+
+.panel .panel-heading h3 {
+    line-height: 29px;
+}
+
+.total-progress {
+    @extend %clearfix;
+
+    .progress {
+        float: left;
+        width: (100%/3);
+
+        &.done {
+            overflow: visible;
+
+            > span {
+                -webkit-transition: background 0.15s ease-in-out;
+                background: #222;
+                cursor: pointer;
+
+                &:hover {
+                    -webkit-transition: none;
+                    background: #0E0E0E;
+                }
+            }
+            .progress-bar {
+                width: 100%!important;
+                background: none;
+                -webkit-transition: none!important;
+                transition: none!important;
+            }
+
+            &.chosen > span {
+                background: #007FFF;
+            }
+        }
+    }
+}
+
+.progress {
+    height: 22px;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    position: relative;
+
+    > span {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        line-height: 22px;
+        text-align: center;
+    }
+
+    .progress-bar {
+        @for $i from 0 through 10 {
+            &[data-level="#{$i*10}"] { background-color: mix($green,$red,$i*10%) }
+        }
+    }
+}
+
+.images {
+    @extend %clearfix;
+    position: absolute;
+    top: 50px;
+    left: 15px;
+    right: 15px;
+    bottom: 15px;
+    overflow: auto;
+
+    > div {
+        float: left;
+        width: 100%;
+        text-align: center;
+
+        img {
+            -webkit-transition: opacity 0.15s ease-in-out;
+            max-width: 100%;
+            opacity: 1;
+
+            &.hidden {
+                opacity: 0;
+            }
+        }
+
+        .actions {
+            display: none;
+            position: fixed;
+            top: 140px;
+            right: 80px;
+        }
+
+        &:hover {
+            .actions {
+                display: block;
+            }
+        }
+    }
+}
+
+tr td [class^="level"] {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #DDD;
+    @for $i from 0 through 10 {
+        &.level-#{$i*10}{ background-color: mix($green,$red,$i*10%) }
+    }
+}
+
+tr td.danger {
+    background-color: $red!important;
+    color: #fff;
+}
+
+.table small {
+    color: #888;
+}
