@@ -47,7 +47,7 @@ body {
             .panel-heading .variants {
                 .badge {
                     @for $i from 0 through 10 {
-                        &[data-level="#{$i*10}"] { background-color: mix($red,$green,$i*10%) }
+                        &[data-level="#{$i*10}"] { background-color: mix($green,$red,$i*10%) }
                     }
                 }
             }
@@ -143,7 +143,7 @@ aside {
 
     .nav li a {
         @for $i from 0 through 10 {
-            &.level-#{$i*10} .badge { background: mix($red,$green,$i*10%) }
+            &.level-#{$i*10} .badge { background: mix($green,$red,$i*10%) }
         }
 
         .badge {
@@ -227,7 +227,7 @@ aside {
         float: left;
         width: 100%;
         text-align: center;
-
+        
         img {
             -webkit-transition: opacity 0.15s ease-in-out;
             max-width: 100%;

@@ -148,7 +148,7 @@ Pediff.prototype.savePath = function(filename){
         paths = {};
     }
 
-    paths[filename] = this.config.path || '';
+    paths[filename] = this.config.path;
 
     fs.write('paths.json',JSON.stringify(paths),'w');
 }

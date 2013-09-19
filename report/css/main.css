@@ -81,27 +81,27 @@ body {
         right: 0;
         overflow: auto; }
       body > .container .panel .panel-heading .variants .badge[data-level="0"] {
-        background-color: #99cc00; }
+        background-color: #ff3333; }
       body > .container .panel .panel-heading .variants .badge[data-level="10"] {
-        background-color: #a3bc05; }
+        background-color: #f4422d; }
       body > .container .panel .panel-heading .variants .badge[data-level="20"] {
-        background-color: #adad0a; }
+        background-color: #ea5128; }
       body > .container .panel .panel-heading .variants .badge[data-level="30"] {
-        background-color: #b79e0f; }
+        background-color: #e06023; }
       body > .container .panel .panel-heading .variants .badge[data-level="40"] {
-        background-color: #c18e14; }
+        background-color: #d6701e; }
       body > .container .panel .panel-heading .variants .badge[data-level="50"] {
         background-color: #cc7f19; }
       body > .container .panel .panel-heading .variants .badge[data-level="60"] {
-        background-color: #d6701e; }
+        background-color: #c18e14; }
       body > .container .panel .panel-heading .variants .badge[data-level="70"] {
-        background-color: #e06023; }
+        background-color: #b79e0f; }
       body > .container .panel .panel-heading .variants .badge[data-level="80"] {
-        background-color: #ea5128; }
+        background-color: #adad0a; }
       body > .container .panel .panel-heading .variants .badge[data-level="90"] {
-        background-color: #f4422d; }
+        background-color: #a3bc05; }
       body > .container .panel .panel-heading .variants .badge[data-level="100"] {
-        background-color: #ff3333; }
+        background-color: #99cc00; }
   body aside + .container .panel {
     left: 269px; }
   body aside.closed + .container .panel {
@@ -161,27 +161,27 @@ aside {
     aside.closed .panel-footer {
       display: none; }
   aside .nav li a.level-0 .badge {
-    background: #99cc00; }
+    background: #ff3333; }
   aside .nav li a.level-10 .badge {
-    background: #a3bc05; }
+    background: #f4422d; }
   aside .nav li a.level-20 .badge {
-    background: #adad0a; }
+    background: #ea5128; }
   aside .nav li a.level-30 .badge {
-    background: #b79e0f; }
+    background: #e06023; }
   aside .nav li a.level-40 .badge {
-    background: #c18e14; }
+    background: #d6701e; }
   aside .nav li a.level-50 .badge {
     background: #cc7f19; }
   aside .nav li a.level-60 .badge {
-    background: #d6701e; }
+    background: #c18e14; }
   aside .nav li a.level-70 .badge {
-    background: #e06023; }
+    background: #b79e0f; }
   aside .nav li a.level-80 .badge {
-    background: #ea5128; }
+    background: #adad0a; }
   aside .nav li a.level-90 .badge {
-    background: #f4422d; }
+    background: #a3bc05; }
   aside .nav li a.level-100 .badge {
-    background: #ff3333; }
+    background: #99cc00; }
   aside .nav li a .badge {
     color: white !important; }
 
