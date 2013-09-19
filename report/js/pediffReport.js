@@ -16,7 +16,8 @@ PediffReport.prototype = {
         currentData: null,
         loadedCount: 0,
         filterDiffering: true,
-        loading: false
+        loading: false,
+        xhr: {}
     },
     options: {
         imagesPath: '../',
@@ -39,6 +40,7 @@ PediffReport.prototype = {
 
         self._bindChooseImage();
         self._bindArrowKeys();
+        self._bindMouse();
 
         self._bindFilterDiffering();
         self.filterDiffering();
@@ -47,12 +49,27 @@ PediffReport.prototype = {
 
     },
 
+    _bindMouse: function(){
+        var self = this;
+        $('.images').on('click',function(e){
+            console.log(e.target);
+            e.preventDefault();
+            if(e.which == 1)
+                self.chooseImage('next');
+            else
+                self.chooseImage(0);
+        }).on("contextmenu",function(e){
+                e.preventDefault();
+                self.chooseImage(0);
+            });
+        $('.images .actions').on('click',function(e){
+            e.stopPropagation();
+        });
+    },
+
     _bindArrowKeys: function(){
         var self = this;
         $(window).on('keyup',function(e){
-            if(self.state.loading)
-                return;
-
             if(e.keyCode == 37) {
                 if(e.ctrlKey)
                     self.chooseVariantThrottle('previous');
@@ -66,10 +83,10 @@ PediffReport.prototype = {
             }
 
             if(e.keyCode == 40 && e.ctrlKey)
-            $('.images ').focus();
+                $('.images ').focus();
 
             if(e.keyCode == 38 && e.ctrlKey)
-            $('.images ').focus();
+                $('.images ').focus();
         });
     },
 
@@ -84,7 +101,7 @@ PediffReport.prototype = {
             var name = keys[i];
 
             html += '<li><a href="#" class="level-'+self.diffToLevel(self.data[name].diff)+'" data-name="'+name+'">';
-            html += '<span class="badge pull-right tt-r" title="up to '+self.diffToPercent(self.data[name].diff)+' difference">'+self.diffToPercent(self.data[name].diff)+'</span>';
+            html += '<span class="badge pull-right tt-r" title="at least '+self.diffToPercent(self.data[name].diff)+' similarity">'+self.diffToPercent(self.data[name].diff)+'</span>';
             html += self.displayName(name);
             html += '</a></li>';
         }
@@ -118,9 +135,6 @@ PediffReport.prototype = {
             if($(this).parent().hasClass('active'))
                 return;
 
-            if(self.state.loading)
-                return;
-
             $(this).parent().siblings().removeClass('active');
             $(this).parent().addClass('active');
 
@@ -131,9 +145,6 @@ PediffReport.prototype = {
 
     chooseTask: function(name){
         var self = this;
-
-        if(self.state.loading)
-            return;
 
         $('.container section header .variants').remove();
 
@@ -147,7 +158,7 @@ PediffReport.prototype = {
 
                 for(var i in data.variants) {
                     var variant = data.variants[i];
-                    html += '<a class="btn btn-default btn-sm" data-variant="'+i+'" href="#"><div class="tt" title="'+self.diffToPercent(variant.diff)+' difference">';
+                    html += '<a class="btn btn-default btn-sm" data-variant="'+i+'" href="#"><div class="tt" title="'+self.diffToPercent(variant.diff)+' similarity">';
                     html += (variant.media === null) ? variant.viewportSize : variant.media;
                     html += ' <span class="badge" data-level="'+self.diffToLevel(variant.diff)+'">'+self.diffToPercent(variant.diff)+'</span>';
                     html += '</div></a>';
@@ -185,10 +196,7 @@ PediffReport.prototype = {
         var self = this;
 
         if(typeof(timeout) === 'undefined')
-            timeout = 1000;
-
-        if(self.state.loading)
-            return;
+            timeout = 300;
 
         self.clearVariant();
 
@@ -235,7 +243,9 @@ PediffReport.prototype = {
         var self = this;
         var variant = self.state.currentData.variants[id];
 
-        $('.container section header .variants .btn').addClass('disabled');
+        if(self.state.loading) {
+            self.abortLoading();
+        }
 
         self.state.loading = true;
 
@@ -257,11 +267,11 @@ PediffReport.prototype = {
     },
 
     diffToPercent: function(diff){
-        return Math.ceil(parseInt(diff)/1000000)+'%';
+        return (100-Math.ceil(parseInt(diff)/1000000))+'%';
     },
 
     diffToLevel: function(diff){
-        return Math.ceil(parseInt(diff)/10000000)*10;
+        return (100-Math.ceil(parseInt(diff)/10000000)*10);
     },
 
     displayName: function(name) {
@@ -272,12 +282,24 @@ PediffReport.prototype = {
         }
     },
 
+    abortLoading: function() {
+        var self = this;
+
+        if(self.state.loading) {
+            for(var env in self.state.xhr) {
+                self.state.xhr[env].abort();
+                delete(self.state.xhr[env]);
+            }
+            self.state.loading = false;
+        }
+    },
+
     loadImage: function(opts) {
         var self = this;
 
         var src = self.breakCache(self.buildUrl(opts));
 
-        $.ajax({
+        self.state.xhr[opts.env] = $.ajax({
             url: src,
             xhr: function() {
                 var xhr = jQuery.ajaxSettings.xhr();
@@ -293,6 +315,7 @@ PediffReport.prototype = {
                         }
                     }, false);
                     xhr.addEventListener('load', function(ev){
+                        delete(self.state.xhr[opts.env]);
                         opts.bar.parent().addClass('done');
                         if(++self.state.loadedCount == self.options.environments.length) {
                             self.state.loadedCount = 0;
