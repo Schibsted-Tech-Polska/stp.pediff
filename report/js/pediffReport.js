@@ -17,11 +17,12 @@ PediffReport.prototype = {
         loadedCount: 0,
         filterDiffering: true,
         loading: false,
-        xhr: {}
+        xhr: {},
+        highQuality: false
     },
     options: {
         imagesPath: '../',
-        imagesExt: '.png',
+        imagesExt: '.jpg',
         environments: ['diff','current','candidate']
     },
 
@@ -41,6 +42,7 @@ PediffReport.prototype = {
         self._bindChooseImage();
         self._bindArrowKeys();
         self._bindMouse();
+        self._bindToggleQuality();
 
         self._bindFilterDiffering();
         self.filterDiffering();
@@ -88,6 +90,24 @@ PediffReport.prototype = {
             if(e.keyCode == 38 && e.ctrlKey)
                 $('.images ').focus();
         });
+    },
+
+    _bindToggleQuality: function(){
+        var self = this;
+        $('.toggle-quality').on('click',function(e){
+            e.preventDefault();
+
+            if(self.state.highQuality) {
+                self.state.highQuality = false;
+                self.options.imagesExt = '.jpg'
+            } else {
+                self.state.highQuality = true;
+                self.options.imagesExt = '.png'
+            }
+
+            $(this).toggleClass('btn-primary');
+            self.chooseVariantThrottle('first',0);
+        })
     },
 
     loadTasks: function() {
@@ -374,7 +394,7 @@ PediffReport.prototype = {
     buildUrl: function(opt) {
         var self = this;
         var filename = opt.diff + '_' + opt.viewportSize + '_' + ((!!opt.media) ? opt.media  + '_' : '') + opt.name + self.options.imagesExt;
-        return self.options.imagesPath + opt.env + '/' + filename;
+        return self.options.imagesPath + opt.env + ((self.state.highQuality) ? '/hq' : '') + '/' + filename;
     },
 
     breakCache: function(url) {
@@ -412,8 +432,9 @@ PediffReport.prototype = {
     _bindFilterDiffering: function() {
         var self = this;
 
-        $('#differences').on('change',function(){
-            self.state.filterDiffering = $(this).is(':checked');
+        $('.toggle-differing').on('click',function(){
+            $(this).toggleClass('btn-primary')
+            self.state.filterDiffering = $(this).hasClass('btn-primary');
             self.filterDiffering();
         });
     },

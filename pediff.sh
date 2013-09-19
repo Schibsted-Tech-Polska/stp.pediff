@@ -1,9 +1,10 @@
 #!/bin/bash
 start=`date +%s`
-mkdir -p candidate current diff
-rm -f candidate/*
-rm -f current/*
-rm -f diff/*
+mkdir -p candidate current diff candidate/hq current/hq diff/hq
+rm -rf candidate/*
+rm -rf current/*
+rm -rf diff/*
+mkdir -p candidate/hq current/hq diff/hq
 rm -f report.json
 touch report.json
 rm -f paths.json
@@ -36,9 +37,21 @@ do
     mv ../candidate/${file} ../candidate/${newfname}
     mv ../current/${file} ../current/${newfname}
 done
+
+echo "Generating previews..."
+for env in diff candidate current
+do
+   cd ../${env}
+   for file in *.png;
+   do
+      convert ${file} -quality 85 ${file%.png}.jpg
+      mv ${file} hq/${file}
+   done
+done
+
 end=`date +%s`
 runtime=$((end-start))
-filecount=$(ls -1 *.png | wc -l | tr -d ' ')
+filecount=$(ls -1 *.jpg | wc -l | tr -d ' ')
 cd ../
 echo "Generating report..."
 casperjs report.js

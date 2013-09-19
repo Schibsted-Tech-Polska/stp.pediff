@@ -25,10 +25,8 @@
                 </ul>
             </div>
             <footer class="panel-footer">
-                <label for="differences">
-                    <input type="checkbox" id="differences" name="differences" checked/>
-                    Show only differing
-                </label>
+                <a href="#" class="btn btn-default btn-primary btn-sm pull-left toggle-differing">Show only differing</a>
+                <a href="#" class="btn btn-default btn-sm pull-right toggle-quality">HQ</a>
             </footer>
             <div class="panel-footer">
                 <a href="#" class="toggle-coverage active">Tests coverage</a>
@@ -49,13 +47,13 @@
                         </div>
                         <table class="table table-striped table-hover">
                             <thead>
-                                <tr>
-                                    <th>Route name</th>
-                                    <th>Route path</th>
-                                    <th>Tested with</th>
-                                    <th>Source file</th>
-                                    <th>Media</th>
-                                </tr>
+                            <tr>
+                                <th>Route name</th>
+                                <th>Route path</th>
+                                <th>Tested with</th>
+                                <th>Source file</th>
+                                <th>Media</th>
+                            </tr>
                             </thead>
                             <tbody>
 
@@ -64,7 +62,7 @@
                     </div>
                     <div class="coverage-disabled" style="display:none">
                         <div class="alert alert-info">
-                        Pediff coverage check has been disabled in the main configuration file.
+                            Pediff coverage check has been disabled in the main configuration file.
                         </div>
                     </div>
                 </div>

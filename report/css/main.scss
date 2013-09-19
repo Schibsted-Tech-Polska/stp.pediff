@@ -163,11 +163,18 @@ aside {
         float: left;
         width: (100%/3);
 
+        > span {
+            -webkit-transition: background 0.15s ease-in-out;
+        }
+
+        .progress-bar {
+            background-color: #222;
+        }
+
         &.done {
             overflow: visible;
 
             > span {
-                -webkit-transition: background 0.15s ease-in-out;
                 background: #222;
                 cursor: pointer;
 
@@ -206,7 +213,9 @@ aside {
         line-height: 22px;
         text-align: center;
     }
+}
 
+#coverage {
     .progress-bar {
         @for $i from 0 through 10 {
             &[data-level="#{$i*10}"] { background-color: mix($green,$red,$i*10%) }
@@ -227,7 +236,7 @@ aside {
         float: left;
         width: 100%;
         text-align: center;
-        
+
         img {
             -webkit-transition: opacity 0.15s ease-in-out;
             max-width: 100%;
