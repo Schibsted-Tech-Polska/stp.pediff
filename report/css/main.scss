@@ -248,16 +248,13 @@ aside {
         }
 
         .actions {
-            display: none;
             position: fixed;
             top: 140px;
             right: 80px;
         }
 
-        &:hover {
-            .actions {
-                display: block;
-            }
+        img.hidden + .actions {
+            display: none;
         }
     }
 }

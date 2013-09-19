@@ -267,12 +267,11 @@ aside .nav li a .badge {
 .images > div img.hidden {
     opacity: 0; }
 .images > div .actions {
-    display: none;
     position: fixed;
     top: 140px;
     right: 80px; }
-.images > div:hover .actions {
-    display: block; }
+.images > div img.hidden + .actions {
+    display: none; }
 
 tr td [class^="level"] {
     display: inline-block;
