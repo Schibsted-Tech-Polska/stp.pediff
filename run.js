@@ -23,8 +23,6 @@ pediff.start().each(Object.keys(pediff.config.environments), function(pd, enviro
                 });
             });
         });
-    })
-
-
+    });
 });
 pediff.run();

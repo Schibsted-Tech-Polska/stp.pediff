@@ -2,3 +2,8 @@ candidate/*
 current/*
 diff/*
 .DS_Store
+tasks/
+!tasks/home.js-dist
+config.js
+paths.json
+report.json
