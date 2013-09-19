@@ -44,7 +44,7 @@ do
    cd ../${env}
    for file in *.png;
    do
-      convert ${file} -quality 85 ${file%.png}.jpg
+      convert ${file} -strip -interlace Plane -gaussian-blur 0.01 -quality 85% ${file%.png}.jpg
       mv ${file} hq/${file}
    done
 done
