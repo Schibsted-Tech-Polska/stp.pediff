@@ -27,8 +27,19 @@ echo "Calculating differences..."
 cd candidate/
 for file in *.png;
 do
+    candidate=${file};
+    current=../current/${file};
+    canH=$(identify -format %h ${candidate});
+    currH=$(identify -format %h ${current});
+    # Compare files dimensions and extend them if necessary
+    if [ "$canH" -gt "$currH" ]; then
+        convert ${current} -gravity north -extent $(identify -format %w ${current})x${canH} ${current}
+    fi
+    if [ "$currH" -gt "$canH" ]; then
+       convert ${candidate} -gravity north -extent $(identify -format %w ${candidate})x${currH} ${candidate}
+    fi
     # Assign absolute number of pixels that are different to a variable
-    ae=$(compare -dissimilarity-threshold 1 -metric AE ${file} ../current/${file} ../diff/${file} 2>&1)
+    ae=$(compare -dissimilarity-threshold 1 -metric AE ${candidate} ${current} ../diff/${file} 2>&1)
     fsize=$(echo ${file} | grep -Po '\d+x\d+' | tr 'x' '*' | bc)
     # Add relative error factor to the name of the files for sorting
     factor=$(echo "$ae/$fsize" | sed -e 's/[eE]+*/\*10\^/' | bc -l | cut -c -9 | tr -d '.')
@@ -57,3 +68,4 @@ echo "Generating report..."
 casperjs report.js
 casperjs coverage.js
 echo "Pediff has taken and compared ${filecount} screenshots in ${runtime} seconds."
+
