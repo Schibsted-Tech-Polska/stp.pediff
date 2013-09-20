@@ -15,6 +15,85 @@ $red: #FF3333;
 
 @import 'icons';
 
+
+.logo {
+    display: inline-block;
+    position: relative;
+    font-family: "Open Sans", sans-serif;
+    font-size: 30px;
+    vertical-align: middle;
+    z-index: 2;
+
+    span {
+        font-size: 1em;
+        color: #fff;
+        position: absolute;
+        display: inline-block;
+        left: 0;
+        top: 0;
+        width: (50/30)+em;
+        line-height: (50/30)+em;
+        text-align: center;
+        //-webkit-font-smoothing: subpixel-antialiased;
+
+        &:after {
+            content: "DIFF";
+            font-size: 0.6em;
+            color: #000;
+            position: absolute;
+            display: inline-block;
+            left: (83/30)+em;
+            line-height: (50/18)+em;
+            top: 0;
+            font-weight: bold;
+            -webkit-transition: all 0.3s ease-in-out 0.8s;
+            opacity: 0;
+            -webkit-transform: translate(-40px,0);
+            z-index: -2;
+        }
+    }
+
+    &:before, &:after{
+        content: "";
+        display: inline-block;
+        width: (46/30)+em;
+        height: (50/30)+em;
+        background: rgba(0, 127, 255,0.8);
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        -webkit-transition: all 0.5s ease-in-out;
+        border: 1px solid rgba(255,255,255,0.1);
+        z-index: -1;
+    }
+
+    &:before {
+        margin-top: -(4/50)+em;
+        -webkit-transform: translate(-100px,0);
+    }
+    &:after {
+        margin-top: (4/50)+em;
+        -webkit-transform: translate(100px,0);
+    }
+
+    &.in {
+        &:before {
+            opacity: 1;
+            -webkit-transform: translate(0,0) skew(10deg);
+        }
+        &:after {
+            opacity: 1;
+            -webkit-transform: translate(0,0) skew(-10deg);
+        }
+        span:after {
+            opacity: 1;
+            -webkit-transform: translate(0,0);
+        }
+    }
+}
+
+
 html {
     height: 100%;
 }
@@ -104,11 +183,23 @@ aside {
 
     .panel-body {
         position: absolute;
-        top: 50px;
+        top: 131px;
         bottom: 110px;
         left: 0;
         right: 0;
         overflow: auto;
+    }
+
+    .logo-wrapper {
+        height: 80px;
+        background: #fff;
+        text-align: left;
+        padding-left: 20px;
+        border-bottom: 1px solid #DDD;
+
+        .btn {
+            margin: 23px 15px;
+        }
     }
 
     .panel-heading {
@@ -125,6 +216,22 @@ aside {
         width: 57px;
         border-bottom: 0;
         bottom: auto;
+
+        .logo-wrapper {
+            padding-left: 6px;
+
+            .logo {
+                font-size: 28px;
+
+                span:after {
+                    display: none;
+                }
+            }
+
+            .btn {
+                display: none;
+            }
+        }
 
         .panel-heading {
             h3 {
@@ -276,4 +383,20 @@ tr td.danger {
 
 .table small {
     color: #888;
+}
+
+
+.key {
+    display: inline-block;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    height: 40px;
+    line-height: 34px;
+    background: #f9f9f9;
+    font-size: 14px;
+    font-family: monospace;
+    padding: 0 14px 4px;
+    box-shadow: inset 0px -3px 2px 1px rgba(0, 0, 0, 0.5);
+    vertical-align: middle;
+    font-weight: bold;
 }

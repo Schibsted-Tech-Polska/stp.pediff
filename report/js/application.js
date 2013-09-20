@@ -12,4 +12,6 @@ $(document).ready(function(){
 
         $('aside').toggleClass('closed');
     });
+
+    $('.logo').addClass('in');
 });
