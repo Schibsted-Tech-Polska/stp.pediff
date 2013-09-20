@@ -58,7 +58,7 @@ $red: #FF3333;
         display: inline-block;
         width: (46/30)+em;
         height: (50/30)+em;
-        background: rgba(0, 127, 255,0.8);
+        background: rgba(0, 127, 255,0.7);
         position: absolute;
         top: 0;
         left: 0;
@@ -80,11 +80,11 @@ $red: #FF3333;
     &.in {
         &:before {
             opacity: 1;
-            -webkit-transform: translate(0,0) skew(10deg);
+            -webkit-transform: translate(0,0) skew(10deg) rotate3d(-1,1,0, 180deg);
         }
         &:after {
             opacity: 1;
-            -webkit-transform: translate(0,0) skew(-10deg);
+            -webkit-transform: translate(0,0) skew(-10deg) rotate3d(1,-1,0, 180deg);
         }
         span:after {
             opacity: 1;
@@ -191,7 +191,7 @@ aside {
     }
 
     .logo-wrapper {
-        height: 80px;
+        height: 75px;
         background: #fff;
         text-align: left;
         padding-left: 20px;

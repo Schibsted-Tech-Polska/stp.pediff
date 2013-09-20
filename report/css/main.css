@@ -92,7 +92,7 @@ you can use the generic selector below, but it's slower:
     display: inline-block;
     width: 1.53333em;
     height: 1.66667em;
-    background: rgba(0, 127, 255, 0.8);
+    background: rgba(0, 127, 255, 0.7);
     position: absolute;
     top: 0;
     left: 0;
@@ -108,10 +108,10 @@ you can use the generic selector below, but it's slower:
     -webkit-transform: translate(100px, 0); }
 .logo.in:before {
     opacity: 1;
-    -webkit-transform: translate(0, 0) skew(10deg); }
+    -webkit-transform: translate(0, 0) skew(10deg) rotate3d(-1, 1, 0, 180deg); }
 .logo.in:after {
     opacity: 1;
-    -webkit-transform: translate(0, 0) skew(-10deg); }
+    -webkit-transform: translate(0, 0) skew(-10deg) rotate3d(1, -1, 0, 180deg); }
 .logo.in span:after {
     opacity: 1;
     -webkit-transform: translate(0, 0); }
@@ -203,7 +203,7 @@ aside .panel-body {
     right: 0;
     overflow: auto; }
 aside .logo-wrapper {
-    height: 80px;
+    height: 75px;
     background: #fff;
     text-align: left;
     padding-left: 20px;
