@@ -1,0 +1,29 @@
+module.exports = {
+    options: {
+        verbose: false,
+        pageSettings: {
+            loadImages: true
+        },
+        viewportSize: [],
+        media: {
+            print: false
+        }
+    },
+    environments: {
+        candidate: 'CANDIDATE_SITE_URL',
+        current: 'CURRENT_SITE_URL'
+    },
+    output: {
+        extension: 'png'
+    },
+    coverage: {
+        routes: 'routes.json',
+        skipOptional: true,
+        exceptions: [
+            {
+                route: '',
+                mapTo: ''
+            }
+        ]
+    }
+};

@@ -1,0 +1,137 @@
+# Stp.pediff
+
+>A simple set of tools for visually comparing web pages built on top of
+><a href="http://casperjs.org/" target="_blank">Casperjs</a> and ImageMagick
+><a href="http://www.imagemagick.org/script/compare.php" target="_blank">compare</a> tool.
+
+## Table of Contents
+* [How it works](#how-it-works)
+* [Why to use it](#why-to-use-it)
+* [Dependencies](#dependencies)
+* [Usage](#usage)
+* [Reports](#reports)
+* [Coverage](#coverage)
+* [Mocks](#mocks)
+
+## How it works
+Basically, Pediff executes a set of user defined tasks over two different versions of a website,
+takes screenshots at desired moments and scans the output for differences.
+Then it generates human-friendly report containing all the inconsistencies ordered by
+relative number of differences. Optionally, it can check whether all the routes of your web application
+are tested.
+
+## Why to use it
+Pediff enables developers to detect entire class of visual problems invisible to
+classic unit tests and only occasionally catchable by manual review. For more details on the topic
+see this great talk by Brett Slatkin at Air Mozilla:
+https://air.mozilla.org/continuous-delivery-at-google/ 
+
+## Pediff in action:
+
+![Pediff example](https://dl.dropboxusercontent.com/u/10807323/static/pediff.gif)
+
+Normal use case would be to compare production version of your application with candidate one.
+Example above is using Norwegian and Swedish version of Google homepage as a base for comparison.
+
+## Dependencies
+*   Unix-like operating system with Bash shell
+*   [Casperjs](http://casperjs.org/) 1.1.0 or newer
+*   ImageMagick [compare](http://www.imagemagick.org/script/compare.php) tool 
+
+## Usage
+1.  Download the project to a place of your convenience
+2.  Rename `config.js-dist` to `config.js` and set the `environments` values so that `candidate` key
+    points to candidate version of your app and `current` key points to, well... current version of
+    your app. The `options` object will be passed to Casperjs instance upon every Pediff run.
+3.  Create as many task files as needed. They all must be placed inside the `tasks/` subdirectory.
+    _Example task file_:
+
+    ```javascript
+    module.exports = {
+        config: {
+            path: 'PATH/TO/RESOURCE'
+            options: {
+                viewportSize: [{width: 1440, height: 900}]
+            },
+            media: {
+                print: false
+            }
+        },
+        execute: function(){
+            this.save('home');
+        }
+    };
+    ```
+    Every task must contain two sections: `config` and `execute`. The `config` part will be merged
+    with global config file before task execution. It serves the purpose of "creating a sandbox" for
+    the task: subpage to open, a set of screen resolutions, user agent, media types,
+    response mocks - things like that.
+    The `execute` function will be run after the page has been loaded by Casperjs. Everything from
+    [Casperjs API](http://casperjs.org/api.html) is acceptable, however you should use
+    `save(filename)` instead of built in `capture` method for taking screenshots to make sure the
+    files are saved in correct directories for comparison.
+
+4.  After creating your tasks, type:
+
+    ```bash
+    $ ./pediff.sh
+    ```
+    into terminal and wait for the tool to finish.
+    Pediff runs every task in a subshell to speed things up. You can limit number of tasks
+    to be run parallelly by providing single positive integer as a parameter:
+
+    ```bash
+    $ ./pediff.sh 4
+    ```
+    This way, tasks will be run in sets of 4 at a time.
+
+5.  At this point `index.html` file should be sitting in project's report/ subdirectory. Open it with your
+    browser and review results.
+
+## Reports
+Pediff generates convenient reports by default. Just open `report/index.html` file with your browser.
+
+![Pediff report](https://dl.dropboxusercontent.com/u/10807323/static/pediffreport.png)
+_Example: Diff view between Swedish and Norwegian versions of Google homepage._
+
+### Report's anatomy
+
+#### General
+
+* On the left you can see a list of all the tasks executed on your page along with label marking
+level of compatibility between the two versions. The list is sorted by number of differences
+(most different first).
+* Optionally, you can toggle visibility of matching tasks (100% compability) with "Show only
+differing" button below.
+* By default, the tool renders lighter (and uglier) jpg images to save download times. You can change
+this behavior with "HQ" button.
+* In the bottom left corner there's "Test coverage" link. [More on coverage](#coverage).
+
+#### Task view
+
+* In the top right corner you can see a list of different screen resulutions that selected task was
+  executed on.
+* In the central area of report the actual screenshots are displayed. You can switch between
+  diff, current and candidate versions using both arrow keys and mouse clicks (left click forwards,
+  right click backwards).
+
+## Mocks
+Sometimes you may want to alter browser state by ensuring a request ends with a certain response.
+You can do that by providing `mocks` object to your task's `config` section:
+
+```javascript
+// ...
+config: {
+    options: {
+        viewportSize: {width: 1100, height: 2500}
+    },
+    mocks: {'modernizer.js': 'modernizr-notouch.js'}
+}
+// ...
+
+```
+where you map request to mock. Mocks must be located in `mocks/` subdirectory.
+
+## Coverage
+
+Todo.
