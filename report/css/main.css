@@ -56,6 +56,66 @@ you can use the generic selector below, but it's slower:
 .icon-caret-right:before {
     content: "\f0da"; }
 
+.logo {
+    display: inline-block;
+    position: relative;
+    font-family: "Open Sans", sans-serif;
+    font-size: 30px;
+    vertical-align: middle;
+    z-index: 2; }
+.logo span {
+    font-size: 1em;
+    color: #fff;
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    top: 0;
+    width: 1.66667em;
+    line-height: 1.66667em;
+    text-align: center; }
+.logo span:after {
+    content: "DIFF";
+    font-size: 0.6em;
+    color: #000;
+    position: absolute;
+    display: inline-block;
+    left: 2.76667em;
+    line-height: 2.77778em;
+    top: 0;
+    font-weight: bold;
+    -webkit-transition: all 0.3s ease-in-out 0.8s;
+    opacity: 0;
+    -webkit-transform: translate(-40px, 0);
+    z-index: -2; }
+.logo:before, .logo:after {
+    content: "";
+    display: inline-block;
+    width: 1.53333em;
+    height: 1.66667em;
+    background: rgba(0, 127, 255, 0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    -webkit-transition: all 0.5s ease-in-out;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: -1; }
+.logo:before {
+    margin-top: -0.08em;
+    -webkit-transform: translate(-100px, 0); }
+.logo:after {
+    margin-top: 0.08em;
+    -webkit-transform: translate(100px, 0); }
+.logo.in:before {
+    opacity: 1;
+    -webkit-transform: translate(0, 0) skew(10deg) rotate3d(-1, 1, 0, 180deg); }
+.logo.in:after {
+    opacity: 1;
+    -webkit-transform: translate(0, 0) skew(-10deg) rotate3d(1, -1, 0, 180deg); }
+.logo.in span:after {
+    opacity: 1;
+    -webkit-transform: translate(0, 0); }
+
 html {
     height: 100%; }
 
@@ -137,11 +197,19 @@ aside div.panel-footer a.active {
     background-color: #007FFF; }
 aside .panel-body {
     position: absolute;
-    top: 50px;
+    top: 131px;
     bottom: 110px;
     left: 0;
     right: 0;
     overflow: auto; }
+aside .logo-wrapper {
+    height: 75px;
+    background: #fff;
+    text-align: left;
+    padding-left: 20px;
+    border-bottom: 1px solid #DDD; }
+aside .logo-wrapper .btn {
+    margin: 23px 15px; }
 aside .panel-heading {
     position: relative;
     min-height: 50px; }
@@ -153,6 +221,14 @@ aside.closed {
     width: 57px;
     border-bottom: 0;
     bottom: auto; }
+aside.closed .logo-wrapper {
+    padding-left: 6px; }
+aside.closed .logo-wrapper .logo {
+    font-size: 28px; }
+aside.closed .logo-wrapper .logo span:after {
+    display: none; }
+aside.closed .logo-wrapper .btn {
+    display: none; }
 aside.closed .panel-heading h3 {
     display: none; }
 aside.closed .panel-heading .btn i:before {
@@ -267,12 +343,11 @@ aside .nav li a .badge {
 .images > div img.hidden {
     opacity: 0; }
 .images > div .actions {
-    display: none;
     position: fixed;
     top: 140px;
     right: 80px; }
-.images > div:hover .actions {
-    display: block; }
+.images > div img.hidden + .actions {
+    display: none; }
 
 tr td [class^="level"] {
     display: inline-block;
@@ -308,3 +383,17 @@ tr td.danger {
 
 .table small {
     color: #888; }
+
+.key {
+    display: inline-block;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    height: 40px;
+    line-height: 34px;
+    background: #f9f9f9;
+    font-size: 14px;
+    font-family: monospace;
+    padding: 0 14px 4px;
+    box-shadow: inset 0px -3px 2px 1px rgba(0, 0, 0, 0.5);
+    vertical-align: middle;
+    font-weight: bold; }

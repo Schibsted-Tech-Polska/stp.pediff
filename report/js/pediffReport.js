@@ -1,4 +1,5 @@
 PediffReport = function(data,options) {
+    console.log(data.tasks)
     this.data = data.tasks || {};
     this.coverage = data.coverage;
     $.extend(this.options,(options || {}));
@@ -22,7 +23,6 @@ PediffReport.prototype = {
     },
     options: {
         imagesPath: '../',
-        imagesExt: '.jpg',
         environments: ['diff','current','candidate']
     },
 
@@ -84,11 +84,12 @@ PediffReport.prototype = {
                     self.chooseImage('next');
             }
 
-            if(e.keyCode == 40 && e.ctrlKey)
-                $('.images ').focus();
-
-            if(e.keyCode == 38 && e.ctrlKey)
-                $('.images ').focus();
+            if(e.keyCode == 40 && e.ctrlKey) { //down arrow
+                self.chooseTask('_next');
+            }
+            if(e.keyCode == 38 && e.ctrlKey) { //up arrow
+                self.chooseTask('_previous');
+            }
         });
     },
 
@@ -97,13 +98,7 @@ PediffReport.prototype = {
         $('.toggle-quality').on('click',function(e){
             e.preventDefault();
 
-            if(self.state.highQuality) {
-                self.state.highQuality = false;
-                self.options.imagesExt = '.jpg'
-            } else {
-                self.state.highQuality = true;
-                self.options.imagesExt = '.png'
-            }
+            self.state.highQuality = !self.state.highQuality;
 
             $(this).toggleClass('btn-primary');
             self.chooseVariantThrottle('first',0);
@@ -159,13 +154,30 @@ PediffReport.prototype = {
             $(this).parent().addClass('active');
 
             self.chooseTask($(this).data('name'));
-            $('#tasks .panel-title').text(self.displayName($(this).data('name')));
         })
     },
 
     chooseTask: function(name){
         var self = this;
 
+        var $tasks = $('ul.tasks [data-name]:not(.ignore)');
+        var current = $tasks.index($('ul.tasks .active > [data-name]:not(.ignore)'));
+        if(name == '_next') {
+            if(current < $tasks.size() - 1)
+                $tasks.eq(current + 1).trigger('click');
+            else
+                $tasks.eq(0).trigger('click');
+            return;
+        }
+        if(name == '_previous') {
+            if(current > 0)
+                $tasks.eq(current - 1).trigger('click');
+            else
+                $tasks.eq($tasks.size() - 1).trigger('click');
+            return;
+        }
+
+        $('#tasks .panel-title').text(self.displayName(name));
         $('.container section header .variants').remove();
 
         if(typeof(self.data[name]) != 'undefined') {
@@ -343,7 +355,7 @@ PediffReport.prototype = {
                             $('.container section header .variants .btn').removeClass('disabled');
                             self.state.loading = false;
                         }
-                        $('.images .'+opts.env+' .actions .download').attr('href',src);
+                        $('.images .'+opts.env+' .actions .download').attr('href',self.breakCache(self.buildUrl(opts,true)));
                         $('.images .'+opts.env+' .actions .view').attr('href',self.options.environmentsPaths[opts.env]+((typeof(opts.path) !== 'undefined') ? opts.path : ''));
                         opts.img.attr('src',"data:image/jpeg;base64," + base64Encode(xhr.responseText));
                     }, false);
@@ -391,10 +403,19 @@ PediffReport.prototype = {
         $('.images .'+self.options.environments[env]+' img').removeClass('hidden');
     },
 
-    buildUrl: function(opt) {
+    buildUrl: function(opt,hq) {
         var self = this;
-        var filename = opt.diff + '_' + opt.viewportSize + '_' + ((!!opt.media) ? opt.media  + '_' : '') + opt.name + self.options.imagesExt;
-        return self.options.imagesPath + opt.env + ((self.state.highQuality) ? '/hq' : '') + '/' + filename;
+
+        if(typeof(hq) == 'undefined')
+            var hq = self.state.highQuality;
+
+        if(hq)
+            var ext = '.png';
+        else
+            ext = '.jpg';
+
+        var filename = opt.diff + '_' + opt.viewportSize + '_' + ((!!opt.media) ? opt.media  + '_' : '') + opt.name + ext;
+        return self.options.imagesPath + opt.env + ((hq) ? '/hq' : '') + '/' + filename;
     },
 
     breakCache: function(url) {

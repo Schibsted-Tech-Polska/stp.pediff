@@ -16,6 +16,10 @@
     <body>
 
         <aside class="panel">
+            <div class="logo-wrapper">
+                <div class="logo"><span>PE</span></div>
+                <a href="#" class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#help-modal">?</a>
+            </div>
             <header class="panel-heading clearfix">
                 <h3 class="panel-title pull-left">Tasks</h3>
                 <a href="#" class="pull-right btn btn-sm btn-primary"><i class="icon-caret-left"></i></a>
@@ -94,30 +98,58 @@
 
                     <div class="images">
                         <div class="diff">
+                            <img src="" alt="" class="hidden"/>
                             <div class="actions">
                                 <a href="" class="btn btn-sm btn-default tt download" target="_blank" download title="Download image"><i class="icon-download-alt"></i></a>
                             </div>
-                            <img src="" alt="" class="hidden"/>
                         </div>
                         <div class="current">
+                            <img src="" alt="" class="hidden"/>
                             <div class="actions">
                                 <a href="" class="btn btn-sm btn-default tt download" target="_blank" download title="Download image"><i class="icon-download-alt"></i></a>
                                 <a href="" class="btn btn-sm btn-default tt view" target="_blank" title="View online"><i class="icon-external-link"></i></a>
                             </div>
-                            <img src="" alt="" class="hidden"/>
                         </div>
                         <div class="candidate">
+                            <img src="" alt="" class="hidden"/>
                             <div class="actions">
                                 <a href="" class="btn btn-sm btn-default tt download" target="_blank" download title="Download image"><i class="icon-download-alt"></i></a>
                                 <a href="" class="btn btn-sm btn-default tt view" target="_blank" title="View online"><i class="icon-external-link"></i></a>
                             </div>
-                            <img src="" alt="" class="hidden"/>
                         </div>
                     </div>
 
                 </div>
             </section>
         </div>
+
+        <div class="modal fade" id="help-modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Help</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>
+                            <span class="key">&larr;</span> / <span class="key">&rarr;</span> - to view <b>previous/next image</b> (diff/current/candidate)
+                        </p>
+                        <p>
+                            <span class="key">Ctrl</span> + <span class="key">&larr;</span> / <span class="key">&rarr;</span> - to open <b>previous/next variant</b> (resolution/media)
+                        </p>
+                        <p>
+                            <span class="key">Ctrl</span> + <span class="key">&uarr;</span> / <span class="key">&darr;</span> - to open <b>previous/next task</b>
+                        </p>
+                        <p>
+                        <div class="key">LMB</div> - to view <b>next image</b> (diff/current/candidate)
+                        </p>
+                        <p>
+                        <div class="key">RMB</div> - to view <b>diff image</b>
+                        </p>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
 
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>

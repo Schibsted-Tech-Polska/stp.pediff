@@ -91,9 +91,7 @@ Pediff.prototype.save = function(filename, selector){
 
         if (selector === undefined){
             this.capture(this.environment + '/' + this.viewportSize.width + 'x' +
-                this.viewportSize.height + '_' + filename  + '.' + this.config.output.extension,
-                {top: 0, left: 0, width: this.viewportSize.width,
-                    height: this.viewportSize.height});
+                this.viewportSize.height + '_' + filename  + '.' + this.config.output.extension);
         } else {
             this.captureSelector(this.environment + '/' + filename  + '.' + this.config.output.extension,
                 selector);
@@ -129,9 +127,7 @@ Pediff.prototype.captureMedia = function(filename){
                 }, styleString);
 
                 this.capture(this.environment + '/'  + this.config.media[media].width + 'x' +
-                    this.config.media[media].height + '_' + media + '_' + filename  + '.' + this.config.output.extension,
-                    {top: 0, left: 0, width: this.config.media[media].width,
-                        height: this.config.media[media].height});
+                    this.config.media[media].height + '_' + media + '_' + filename  + '.' + this.config.output.extension);
 
             });
         }
