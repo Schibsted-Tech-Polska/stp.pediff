@@ -4,6 +4,8 @@
 ><a href="http://casperjs.org/" target="_blank">Casperjs</a> and ImageMagick
 ><a href="http://www.imagemagick.org/script/compare.php" target="_blank">compare</a> tool.
 
+View a [sample report here](http://schibsted-tech-polska.github.io/stp.pediff/report/index.html).
+
 ## Table of Contents
 * [How it works](#how-it-works)
 * [Why to use it](#why-to-use-it)
@@ -24,7 +26,7 @@ are tested.
 Pediff enables developers to detect entire class of visual problems invisible to
 classic unit tests and only occasionally catchable by manual review. For more details on the topic
 see this great talk by Brett Slatkin at Air Mozilla:
-https://air.mozilla.org/continuous-delivery-at-google/ 
+https://air.mozilla.org/continuous-delivery-at-google/
 
 ## Pediff in action:
 
@@ -36,7 +38,7 @@ Example above is using Norwegian and Swedish version of Google homepage as a bas
 ## Dependencies
 *   Unix-like operating system with Bash shell
 *   [Casperjs](http://casperjs.org/) 1.1.0 or newer
-*   ImageMagick [compare](http://www.imagemagick.org/script/compare.php) tool 
+*   ImageMagick [compare](http://www.imagemagick.org/script/compare.php) tool
 
 ## Usage
 1.  Download the project to a place of your convenience
@@ -103,8 +105,8 @@ level of compatibility between the two versions. The list is sorted by number of
 (most different first).
 * Optionally, you can toggle visibility of matching tasks (100% compability) with "Show only
 differing" button below.
-* By default, the tool renders lighter (and uglier) jpg images to save download times. You can change
-this behavior with "HQ" button.
+* By default, the tool renders lighter (and uglier) jpg images to reduce download times. You can change
+this behavior with the "HQ" button, which forces pediff to load much heavier png images.
 * In the bottom left corner there's "Test coverage" link. [More on coverage](#coverage).
 
 #### Task view
@@ -123,7 +125,7 @@ You can do that by providing `mocks` object to your task's `config` section:
 // ...
 config: {
     options: {
-        viewportSize: {width: 1100, height: 2500}
+        viewportSize: [{width: 1100, height: 2500}]
     },
     mocks: {'modernizer.js': 'modernizr-notouch.js'}
 }
@@ -134,4 +136,40 @@ where you map request to mock. Mocks must be located in `mocks/` subdirectory.
 
 ## Coverage
 
-Todo.
+### General
+The tests coverage feature, allows one to easily check, whether all possible subpages of a project are being tested.
+Pediff does this by comparing a given set of routes, placed in `routes.json`, with test paths defined in individual tasks.
+
+You can disable the tests coverage feature by setting `coverage` property of pediff `config` file to `false`.
+
+```javascript
+// ...
+coverage: {
+    routes: 'routes.json',
+    skipOptional: true,
+    exceptions: [
+        {
+            route: '',
+            mapTo: ''
+        }
+    ]
+}
+// ...
+
+```
+
+Coverage configuration allows you to set a different path to the routes file (e.g. when this file is generated
+automatically), and define exceptions by explicitly mapping a path from routes definition to a path in a task file.
+You may also choose to force checking of routes' optional fragments by setting the `skipOptional` flag to `false`.
+
+### Report
+Results of the test coverage check are presented in the pediff report, with an indication of tested viewport sizes,
+media and files in which specific tasks are defined. Routes not tested with any tasks will be marked with red color,
+and be included in the total coverage percentage.
+
+### Extending
+Currently coverage check is possible only for routes defined according to
+[Backbone.js routes specification](http://backbonejs.org/#Router-extend). Support for custom routing setups can be
+added by extending coverage Route prototype (located in `coverage/route.js`), and specifically by overriding the
+following methods: `buildVariants`, `isFragmentOptional`, `isFragmentVariable`. More details can be found in comments
+for these methods.

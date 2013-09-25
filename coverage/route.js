@@ -14,16 +14,21 @@ Route.prototype = {
 
     init: function(){
         var self = this;
-        this.buildVariants();
+        self.variants = this.buildVariants(self.fragments);
     },
 
-    buildVariants: function(){
+    /**
+     * Used to build all possible route variants, depending on optionality of its fragments.
+     * @param {Array} fragments
+     * @return {Array} variants - an array of all possible variants represented by RouteVariant objects
+     */
+    buildVariants: function(fragments){
         var self = this;
 
         //count optional route fragments
         var count = 0;
-        for(var i=0; i<self.fragments.length; i++) {
-            var fragment = self.fragments[i];
+        for(var i=0; i<fragments.length; i++) {
+            var fragment = fragments[i];
             if(self.isFragmentOptional(fragment))
                 count++;
         }
@@ -38,8 +43,8 @@ Route.prototype = {
         var k = 0;
 
         //build all variants possible to make with current route's fragments
-        for(i=0; i<self.fragments.length; i++) {
-            fragment = self.fragments[i];
+        for(i=0; i<fragments.length; i++) {
+            fragment = fragments[i];
 
             var printOpt = true;
             for(var j=0;j<Math.pow(2,count);j++) {
@@ -59,9 +64,12 @@ Route.prototype = {
                 k++;
         }
 
+        var tmp = [];
         for(i=0; i<variants.length; i++) {
-            self.variants.push(new RouteVariant(variants[i]));
+            tmp.push(new RouteVariant(variants[i]));
         }
+
+        return tmp;
     },
 
     test: function(tests){
@@ -74,10 +82,20 @@ Route.prototype = {
         }
     },
 
+    /**
+    * Used to determine whether a given route fragment is optional or not. In backbone.js that could be "base(/fragment)".
+    * @param {string} fragment
+    * @return {boolean} true of false
+    */
     isFragmentOptional: function(fragment){
         return /\(.[^\)]*\)/.test(fragment);
     },
 
+    /**
+     * Used to determine whether a given route fragment is variable. In backbone.js that could be "base/:fragment".
+     * @param {string} fragment
+     * @return {boolean} true of false
+     */
     isFragmentVariable: function(fragment){
         return (fragment.indexOf(':') === 0 || Route.prototype.isFragmentOptional(fragment) && fragment.indexOf(':') === 1);
     },
