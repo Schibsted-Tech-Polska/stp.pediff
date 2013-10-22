@@ -212,6 +212,48 @@ aside {
         }
     }
 
+    .tasks .collapse {
+        padding-left: 20px;
+
+        &:before {
+            border-left: 1px solid #ddd;
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 9px;
+            display: block;
+        }
+
+        &.in {
+            border-top: 1px solid #ddd;
+            position: relative;
+        }
+
+        li:before {
+            content: "\f0da";
+            font-family: 'icons';
+            color: #DDD;
+            position: absolute;
+            top: 50%;
+            left: -11px;
+            border-top: 1px solid #DDD;
+            width: 11px;
+            text-align: right;
+            line-height: 0;
+        }
+
+        li:last-child:after {
+            border-left: 1px solid #fff;
+            content: '';
+            position: absolute;
+            top: 50%;
+            bottom: 0;
+            left: -11px;
+            display: block;
+        }
+    }
+
     &.closed {
         width: 57px;
         border-bottom: 0;
@@ -383,6 +425,22 @@ tr td.danger {
 
 .table small {
     color: #888;
+}
+
+.failure-info {
+    display: none;
+}
+
+#tasks.failure {
+    .total-progress,
+    .images,
+    .variants {
+        display: none;
+    }
+
+    .failure-info {
+        display: block;
+    }
 }
 
 

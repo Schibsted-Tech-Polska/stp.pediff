@@ -14,7 +14,8 @@ module.exports = {
         current: 'CURRENT_SITE_URL'
     },
     output: {
-        extension: 'png'
+        extension: 'png',
+        junit: true
     },
     coverage: {
         routes: 'routes.json',

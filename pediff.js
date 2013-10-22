@@ -1,6 +1,6 @@
 var Casper = require(phantom.casperPath + '/modules/casper').Casper,
     utils = require(phantom.casperPath + '/modules/utils'),
-    cli = require(phantom.casperPath + '/modules/cli');
+    fs = require('fs');
 
 function Pediff(){
     Pediff.super_.apply(this, arguments);
@@ -83,11 +83,16 @@ Pediff.prototype.preExecute = function(pd){
  * @param {string} selector optional css or xpath selector
  */
 Pediff.prototype.save = function(filename, selector){
+    filename = this.config.package + ((filename) ? '@' + filename : '');
     this.wait(500,function(){
         if (this.options.verbose){
             console.log('[' + this.environment + '@' + this.viewportSize.width + 'x' +
                 this.viewportSize.height + '] ' + filename + '.' + this.config.output.extension);
         }
+
+        //save HTML for debugging purposes
+        fs.write(this.environment + '/html/' + this.viewportSize.width + 'x' +
+            this.viewportSize.height + '_' + filename  + '.html',this.getHTML(),'w');
 
         if (selector === undefined){
             this.capture(this.environment + '/' + this.viewportSize.width + 'x' +
@@ -97,7 +102,6 @@ Pediff.prototype.save = function(filename, selector){
                 selector);
         }
 
-        this.savePath(filename);
         this.captureMedia(filename);
     });
 };
@@ -132,23 +136,6 @@ Pediff.prototype.captureMedia = function(filename){
             });
         }
     }
-}
-
-/**
- * Helper method for saving the path of current task, for later inclusion in the report. Used internally.
- * @param {string} filename name of the file to be written
- */
-Pediff.prototype.savePath = function(filename){
-    var fs = require('fs');
-    try {
-        var paths = eval("("+fs.read('paths.json')+')');
-    } catch(e) {
-        paths = {};
-    }
-
-    paths[filename] = this.config.path;
-
-    fs.write('paths.json',JSON.stringify(paths),'w');
 }
 
 module.exports = Pediff;

@@ -119,6 +119,33 @@
                         </div>
                     </div>
 
+                    <div class="failure-info">
+                        <div class="alert alert-warning">
+                            <h4>An error occured during the execution of this task!</h4><br/>
+                            <p>There are many possible causes for this issue. You may try checking the following:</p><br/>
+                            <ul>
+                                <li>
+                                    <p>
+                                    Make sure that both
+                                    <code><a href="#" data-fill="candidate-path">candidate <i class="icon-external-link"></i></a></code>
+                                    and <code><a href="#" data-fill="current-path">current <i class="icon-external-link"></i></a></code>
+                                    environment pages are loading
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>
+                                        Check the task definition for errors <code data-fill="task-file"></code>
+                                    </p>
+                                </li>
+                                <li>
+                                    <p>
+                                       Make sure that none of the actions defined in casperjs <code>wait*-like</code> functions could exceed the wait timeout (default: 5000ms)
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
                 </div>
             </section>
         </div>

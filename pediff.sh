@@ -1,10 +1,10 @@
 #!/bin/bash
 start=`date +%s`
-mkdir -p candidate current diff candidate/hq current/hq diff/hq
+mkdir -p candidate current diff
 rm -rf candidate/*
 rm -rf current/*
 rm -rf diff/*
-mkdir -p candidate/hq current/hq diff/hq
+mkdir -p candidate/hq current/hq diff/hq candidate/html current/html
 rm -f report.json
 touch report.json
 rm -f paths.json
