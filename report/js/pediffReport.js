@@ -229,8 +229,6 @@ PediffReport.prototype = {
             self.state.currentName = name;
             self.state.currentAction = action;
 
-            console.log(data.variants.length)
-
             if (data.variants.length > 0) {
                 var html = '<div class="btn-group pull-right variants">';
 
@@ -500,7 +498,6 @@ PediffReport.prototype = {
                 }
 
                 for(var action in self.data[name].actions) {
-                    console.log(self.data[name].actions[action].diff)
                     if (self.data[name].actions[action].diff == 0) {
                         $('[data-package="' + name + '"][data-action="'+ action +'"]').hide().addClass('ignore');
                     } else {
