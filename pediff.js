@@ -98,7 +98,8 @@ Pediff.prototype.save = function(filename, selector){
             this.capture(this.environment + '/' + this.viewportSize.width + 'x' +
                 this.viewportSize.height + '_' + filename  + '.' + this.config.output.extension);
         } else {
-            this.captureSelector(this.environment + '/' + filename  + '.' + this.config.output.extension,
+            this.captureSelector(this.environment + '/' + this.viewportSize.width + 'x' +
+                this.viewportSize.height + '_' + filename  + '.' + this.config.output.extension,
                 selector);
         }
 
