@@ -29,6 +29,12 @@ for file in *.png;
 do
     candidate=${file};
     current=../current/${file};
+
+    if [ ! -f ${candidate} -o ! -f ${current} ]
+    then
+       continue
+    fi
+
     canH=$(identify -format %h ${candidate});
     currH=$(identify -format %h ${current});
     # Compare files dimensions and extend them if necessary
@@ -55,6 +61,10 @@ do
    cd ../${env}
    for file in *.png;
    do
+        if [ ! -f ${file} ]
+       then
+          continue
+       fi
       convert ${file} -strip -interlace Plane -quality 75% ${file%.png}.jpg
       mv ${file} hq/${file}
    done

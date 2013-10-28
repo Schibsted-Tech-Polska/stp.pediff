@@ -18,8 +18,8 @@ var tasks = fs.list('tasks');
 for (i = 0; i < tasks.length; i++) {
     var filename = tasks[i];
 
-    //filter out "up one directory" links from the files list
-    if (filename.indexOf('.js') === -1) {
+    //filter out "up one directory" links and dist file from the files list
+    if (filename.indexOf('.js') === -1 || filename.indexOf('.js') !== filename.length - 3) {
         continue;
     }
 

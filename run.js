@@ -21,6 +21,9 @@ pediff.start().each(Object.keys(pediff.config.environments), function(pd, enviro
                     this.preExecute();
                     this.execute();
                 });
+                this.then(function(){
+                    this.postExecute();
+                })
             });
         });
     });

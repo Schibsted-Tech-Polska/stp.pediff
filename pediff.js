@@ -103,6 +103,8 @@ Pediff.prototype.save = function(filename, selector){
                 selector);
         }
 
+        this.saved = true;
+
         this.captureMedia(filename);
     });
 };
@@ -136,6 +138,13 @@ Pediff.prototype.captureMedia = function(filename){
 
             });
         }
+    }
+}
+
+Pediff.prototype.postExecute = function(){
+    if(!this.saved) {
+        console.log('[warning][' + this.environment + '@' + this.viewportSize.width + 'x' +
+            this.viewportSize.height + '] ' + this.config.package + '.' + this.config.output.extension + ' was not saved');
     }
 }
 
