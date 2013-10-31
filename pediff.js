@@ -69,6 +69,8 @@ Pediff.prototype.preExecute = function(pd){
     }
     styleString += '</style>';
 
+    this.saved = false;
+
     this.evaluate(function(styleString) {
         $('head').append($(styleString));
     }, styleString);
@@ -84,29 +86,29 @@ Pediff.prototype.preExecute = function(pd){
  */
 Pediff.prototype.save = function(filename, selector){
     filename = this.config.package + ((filename) ? '@' + filename : '');
-    this.wait(500,function(){
-        if (this.options.verbose){
-            console.log('[' + this.environment + '@' + this.viewportSize.width + 'x' +
-                this.viewportSize.height + '] ' + filename + '.' + this.config.output.extension);
+    this.wait(500,(function(that){
+        if (that.options.verbose){
+            console.log('[' + that.environment + '@' + that.viewportSize.width + 'x' +
+                that.viewportSize.height + '] ' + filename + '.' + that.config.output.extension);
         }
 
         //save HTML for debugging purposes
-        fs.write(this.environment + '/html/' + this.viewportSize.width + 'x' +
-            this.viewportSize.height + '_' + filename  + '.html',this.getHTML(),'w');
+        fs.write(that.environment + '/html/' + that.viewportSize.width + 'x' +
+            that.viewportSize.height + '_' + filename  + '.html',that.getHTML(),'w');
 
         if (selector === undefined){
-            this.capture(this.environment + '/' + this.viewportSize.width + 'x' +
-                this.viewportSize.height + '_' + filename  + '.' + this.config.output.extension);
+            that.capture(that.environment + '/' + that.viewportSize.width + 'x' +
+                that.viewportSize.height + '_' + filename  + '.' + that.config.output.extension);
         } else {
-            this.captureSelector(this.environment + '/' + this.viewportSize.width + 'x' +
-                this.viewportSize.height + '_' + filename  + '.' + this.config.output.extension,
+            that.captureSelector(that.environment + '/' + that.viewportSize.width + 'x' +
+                that.viewportSize.height + '_' + filename  + '.' + that.config.output.extension,
                 selector);
         }
 
-        this.saved = true;
+        that.saved = true;
 
-        this.captureMedia(filename);
-    });
+        that.captureMedia(filename);
+    })(this));
 };
 
 /**
@@ -145,6 +147,9 @@ Pediff.prototype.postExecute = function(){
     if(!this.saved) {
         console.log('[warning][' + this.environment + '@' + this.viewportSize.width + 'x' +
             this.viewportSize.height + '] ' + this.config.package + '.' + this.config.output.extension + ' was not saved');
+        //save HTML for debugging purposes
+        fs.write(this.environment + '/html/failed/' + this.viewportSize.width + 'x' +
+            this.viewportSize.height + '_' + this.config.package  + '.html',this.getHTML(),'w');
     }
 }
 
