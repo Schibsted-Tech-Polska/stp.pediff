@@ -1,6 +1,6 @@
 module.exports = {
     config: {
-        path: 'PATH/TO/RESOURCE',
+        path: '?',
         options: {
             viewportSize: [{width: 1440, height: 900}]
         },
