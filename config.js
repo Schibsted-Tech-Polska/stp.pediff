@@ -10,8 +10,8 @@ module.exports = {
         }
     },
     environments: {
-        candidate: 'CANDIDATE_SITE_URL',
-        current: 'CURRENT_SITE_URL'
+        candidate: 'http://google.pl/',
+        current: 'http://google.en/'
     },
     output: {
         extension: 'png',
