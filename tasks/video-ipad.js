@@ -10,7 +10,7 @@ module.exports = {
             print: false
         },
         package: 'ipadvideocover',
-        actions: task.pages
+        actions: task.pages(3)
     },
     execute: task.exec
 };
