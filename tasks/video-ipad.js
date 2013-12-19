@@ -1,17 +1,16 @@
 module.exports = {
     config: {
-        path: '&id=common408675&format=ipad_landscape&page=1',
+        path: '&id=ap7364935&format=ipad_landscape&page=0',
         options: {
             viewportSize: [{width: 1024, height: 778}]
         },
         media: {
             print: false
         },
-        package: 'ipad',
-        actions: ['after-wait', 'after-inline-wait']
+        package: 'ipadvideo',
+        actions: ['ipad-wait', 'ipad-after-inline-wait']
     },
     execute: function(){
-
         this.wait(4000, function() {
             this.echo("I've waited for a second.");
             this.save();
