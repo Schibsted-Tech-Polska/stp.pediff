@@ -46,7 +46,12 @@ do
     fi
     # Assign absolute number of pixels that are different to a variable
     ae=$(compare -dissimilarity-threshold 1 -metric AE ${candidate} ${current} ../diff/${file} 2>&1)
-    fsize=$(echo ${file} | grep -Po '\d+x\d+' | tr 'x' '*' | bc)
+    # Handle different implementations of grep
+    if [[ `uname` == 'Darwin' ]]; then 
+        fsize=$(echo ${file} | grep -Eo --color=never '\d+x\d+' | tr 'x' '*' | bc)
+    else
+        fsize=$(echo ${file} | grep -Po '\d+x\d+' | tr 'x' '*' | bc)
+    fi
     # Add relative error factor to the name of the files for sorting
     factor=$(echo "$ae/$fsize" | sed -e 's/[eE]+*/\*10\^/' | bc -l | cut -c -9 | tr -d '.')
     newfname=${factor}_${file}

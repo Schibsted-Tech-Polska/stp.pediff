@@ -18,14 +18,5 @@ module.exports = {
         extension: 'png',
         junit: true
     },
-    coverage: {
-        routes: 'routes.json',
-        skipOptional: true,
-        exceptions: [
-            {
-                route: '',
-                mapTo: ''
-            }
-        ]
-    }
+    coverage: false
 };
