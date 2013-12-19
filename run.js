@@ -17,7 +17,9 @@ pediff.start().each(Object.keys(pediff.config.environments), function(pd, enviro
         self.then(function(){ this.setEnvironment(environment); });
         self.then(function(){
             this.viewport(viewport.width, viewport.height, function(){
-                this.thenOpen(this.config.environments[environment] + (this.config.path || ''), function() {
+                var url = this.config.environments[environment] + (this.config.path || '');
+                console.log(url);
+                this.thenOpen(url, function() {
                     this.preExecute();
                     this.execute();
                 });
