@@ -1,30 +1,29 @@
 module.exports = {
     config: {
-        path: '&id=common408675&format=ipad_landscape&page=1',
+        path: '&id=ap7364935&format=iphone&page=0',
         options: {
-            viewportSize: [{width: 1024, height: 778}]
+            viewportSize: [{width: 320, height: 480}]
         },
         media: {
             print: false
         },
-        package: 'ipad',
-        actions: ['after-wait']
+        package: 'iphone',
+        actions: ['iphone-wait']
     },
     execute: function(){
-
         this.wait(1000, function() {
             this.echo("I've waited for a second.");
             this.save();
         });
 
         this.then(function(){
-             this.waitUntilVisible('.alf-template', function(){
+             this.waitForSelector('.alf-template', function(){
                  //this.sendKeys('input', 'phrase', {keepFocus: true});
                  this.save(this.config.actions[0]);
-                 this.echo("I've waited for a selector visible. saved");
+                 this.echo("I've waited for a selector. saved");
              }, function(){
                 this.save(this.config.actions[0]);
-                this.echo("I've waited for a selector visible. timeout");
+                this.echo("I've waited for a selector. timeout");
              }, 40000);
         })
     }

@@ -10,8 +10,9 @@ module.exports = {
         }
     },
     environments: {
-        candidate: 'http://google.pl/',
-        current: 'http://google.en/'
+        candidate: 'http://hfossli.github.io/drmobile-integration/test.html?env=rai-dev.aptoma.no:9000',
+        //candidate: 'http://hfossli.github.io/drmobile-integration/test.html?env=1',
+        current: 'http://hfossli.github.io/drmobile-integration/test.html?env=aftenposten-staging.drlib.aptoma.no'
     },
     output: {
         extension: 'png',
