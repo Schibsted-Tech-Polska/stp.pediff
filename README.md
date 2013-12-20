@@ -58,7 +58,8 @@ Example above is using Norwegian and Swedish version of Google homepage as a bas
             },
             media: {
                 print: false
-            }
+            },
+            package: "homepage"
         },
         execute: function(){
             this.save('home');
