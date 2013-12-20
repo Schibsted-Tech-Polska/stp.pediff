@@ -11,6 +11,7 @@ View a [sample report here](http://schibsted-tech-polska.github.io/stp.pediff/re
 * [Why to use it](#why-to-use-it)
 * [Dependencies](#dependencies)
 * [Usage](#usage)
+* [Verbose mode](#verbose-mode)
 * [Reports](#reports)
 * [Coverage](#coverage)
 * [Mocks](#mocks)
@@ -89,6 +90,17 @@ Example above is using Norwegian and Swedish version of Google homepage as a bas
 
 5.  At this point `index.html` file should be sitting in project's report/ subdirectory. Open it with your
     browser and review results.
+
+## Verbose mode
+While working on tasks it is useful to see what is going on during execution.
+You can force pediff to output more data by setting verbose option to `true` in your config.js
+
+```javascript
+module.exports = {
+    options: {
+        verbose: true,
+        ...
+```
 
 ## Reports
 Pediff generates convenient reports by default. Just open `report/index.html` file with your browser.
