@@ -70,6 +70,12 @@ Example above is using Norwegian and Swedish version of Google homepage as a bas
     with global config file before task execution. It serves the purpose of "creating a sandbox" for
     the task: subpage to open, a set of screen resolutions, user agent, media types,
     response mocks - things like that.
+    
+    ###Some config keys explained:
+    * `package` is the label under which all the output for given task will be grouped by in the report.
+    * `media` is the key that enables you to force PhantomJS to render page as different media (ex.
+      print)
+    
     The `execute` function will be run after the page has been loaded by Casperjs. Everything from
     [Casperjs API](http://casperjs.org/api.html) is acceptable, however you should use
     `save(filename)` instead of built in `capture` method for taking screenshots to make sure the
