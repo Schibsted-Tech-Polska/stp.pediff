@@ -88,7 +88,7 @@ Pediff.prototype.save = function(filename, selector){
     filename = this.config.package + ((filename) ? '@' + filename : '');
     this.wait(500,(function(that){
         if (that.options.verbose){
-            console.log('[' + that.environment + '@' + that.viewportSize.width + 'x' +
+            console.log('[' + that.config.environments[that.environment] + (that.config.path || '') + '@' + that.viewportSize.width + 'x' +
                 that.viewportSize.height + '] ' + filename + '.' + that.config.output.extension);
         }
 
