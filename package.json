@@ -1,0 +1,16 @@
+{
+  "name": "pediff",
+  "description": "Set of tools for visually comparing web pages built on top of Casperjs",
+  "author": "stp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aheckmann/gm.git"
+  },
+  "dependencies": {
+    "phantomjs": ">=1.8.2",
+    "casperjs": ">= 1.1.0",
+    "gm": ">= 1.14.2",
+    "q": ">= 1.0.0",
+    "q-io": ">= 1.11.0"
+  }
+}
