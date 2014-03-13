@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "phantomjs": ">=1.8.2",
-    "casperjs": ">= 1.1.0",
+    "casperjs": ">= 1.1.0-beta2",
     "gm": ">= 1.14.2",
     "q": ">= 1.0.0",
     "q-io": ">= 1.11.0"
