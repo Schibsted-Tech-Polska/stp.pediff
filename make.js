@@ -2,348 +2,221 @@ var fs = require('q-io/fs'),
     path = require('path'),
     gm = require('gm'),
     q = require('q'),
-    proc = require('child_process');
+    proc = require('child_process'),
+    tools = require('./toolbelt'),
+    colors = require('colors');
 
-console.time('work took me');
+colors.setTheme({
+    tick: 'green',
+    title: 'underline',
+    info: 'grey'
+});
 
-var dirify = function dirify (path) {
-  return __dirname + '/' + path;
-};
+var prompt = function prompt(log, tick) {
+    console.log((tick ? tick.tick : '› '.tick) + log);
+}
 
-var filterByExtensions = function filterByExtensions (extensions, filesList) {
-  return filesList.filter(function (file) {
-    var extension = file.split('.'),
-        extension = extension[extension.length - 1];
+console.time('› '.tick + 'work took me');
 
-    return extensions[extension];
-  });
-};
-
-var jsOnly = filterByExtensions.bind(null, {js: 1}),
-    imagesOnly = filterByExtensions.bind(null, {png: 1, jpg: 1}),
-    pngOnly = filterByExtensions.bind(null, {png: 1}),
-    jpgOnly = filterByExtensions.bind(null, {jpg: 1});
-
-var imageSize = function imageSize (image) {
-  var deffered = q.defer();
-
-  gm(image).size(function (error, value) {
-    if (error) {
-      deffered.reject(new Error(error));
-    } else {
-      deffered.resolve({path: image, size: value});
-    };
-  });
-
-  return deffered.promise;
-};
-
-var extentImage = function extentImage (image, size) {
-  var deffered = q.defer();
-
-  gm(image).extent(size.width, size.height)
-  .write(image, function (error) {
-    if (error) {
-      deffered.reject(new Error(error));
-    } else {
-      deffered.resolve(image);
-    };
-  });
-
-  return deffered.promise;
-};
-
-var equateImagesHeight = function equateImagesHeight (images) {
-  var deffered = q.defer(),
-      sizes = [];
-
-  images.forEach(function (image) {
-    image = __dirname + '/' + image;
-    
-    sizes.push(imageSize(image));
-  });
-
-  q.all(sizes)
-  .then(function (images) {
-    if (images[0].size.height > images[1].size.height) {
-      var lower = 1,
-          higher = 0; 
-    } else if (images[0].size.height < images[1].size.height) {
-      var lower = 0,
-          higher = 1;
-    } else {
-      deffered.resolve(images);
-
-      return deffered.promise;
-    };
-
-    extentImage(images[lower].path, images[higher].size)
-    .then(function (image) {
-      deffered.resolve(image);
-    })
-    .fail(function (error) {
-      deffered.reject(error);
-    });
-  });
-
-  return deffered.promise;
-};
-
-var compareImages = function compareImages (images, file) {
-  var deffered = q.defer();
-
-  // gonna be a bit ugly, but there’s some bug in gm.compare()
-  // it dosen’t return any info if has options object provided
-  // do not change without checking, please
-  gm.compare(images[0], images[1], function (error, isEqual, equality, raw) {
-    if (error) {
-      deffered.reject(new Error(error));
-    } else {
-      gm.compare(images[0], images[1], {file: file}, function (error) {
-        if (error) {
-          deffered.reject(new Error(error));
-        } else {
-          deffered.resolve({isEqual: isEqual, equality: equality}); 
-        };
-      });
-    };
-  });
-
-  return deffered.promise;
-};
-
-var changeExtension = function changeExtension (ext, path) {
-  return path.split('.')[0] + '.' + ext;
-};
-
-var toJpg = changeExtension.bind(null, 'jpg');
-
-var stripToJpg = function stripToJpg (image, quality) {
-  var deffered = q.defer(),
-      jpg = toJpg(image);
-
-  gm(image).noProfile().comment('').interlace('Plane').quality(quality)
-  .write(jpg, function (error) {
-    if (error) {
-      deffered.reject(new Error(error));
-    } else {
-      deffered.resolve(image);
-    };
-  });
-
-  return deffered.promise;
-};
-
-var exec = function exec (command) {
-  var deffered = q.defer();
-
-  proc.exec(command, function (error, stdout, stderr) {
-    if (error) {
-      deffered.reject({error: new Error(error), stdout: stdout});
-    } else {
-      deffered.resolve({stdout: stdout, stderr: stderr});
-    };
-  });
-
-  return deffered.promise;
-};
-
-var directories      = ['candidate', 'current', 'diff'],
+var directories = ['candidate', 'current', 'diff'],
     innerDirectories = ['candidate/hq', 'current/hq', 'diff/hq',
-                        'candidate/html', 'current/html', 'candidate/html/failed',
-                        'current/html/failed'],
-    jsonFiles        = ['report.json', 'paths.json'];
+        'candidate/html', 'current/html', 'candidate/html/failed',
+        'current/html/failed'
+    ],
+    jsonFiles = ['report.json', 'paths.json'];
 
-q.fcall(function () {
-  var removed = [];
+var qForEach = function qForEach(func, list) {
+    return function(res) {
+        var arr = [];
 
-  directories.forEach(function (dir) {
-    removed.push(fs.removeTree(dir));
-  });
+        (list ? list : res).forEach(function(listEl) {
+            arr.push(func(listEl));
+        });
 
-  return q.all(removed)
-})
-.then(function () {
-  var created = [];
+        return q.all(arr);
+    }
+}
 
-  directories.forEach(function (dir) {
-    created.push(fs.makeDirectory(dir));
-  });
+var step = function step(func, tick) {
+    return function(res) {
+        prompt(tick ? tick : 'taking next step');
+        return res ? func(res) : func();
+    }
+}
 
-  return q.all(created);
-})
-.then(function () {
-  var created = [];
+var promiseResult = function promiseResult(func) {
+    return function(res) {
+        var deffered = q.defer();
+        deffered.resolve(func(res));
+        return deffered.promise;
+    }
+}
 
-  innerDirectories.forEach(function (dir) {
-    created.push(fs.makeDirectory(dir));
-  });
+var qChain = function qChain(func, list) {
+    var promiseChain = q.fcall(function() {});
 
-  return q.all(created);
-})
-.then(function (res) {
-  var created = [];
+    list.forEach(function(listEl) {
+        var promiseLink = func.bind(this, listEl);
 
-  jsonFiles.forEach(function (file) {
-    created.push(fs.write(file, ''));
-  });
-
-  return q.all(created);
-})
-.then(function () {
-  console.log('ready to execute your tasks, master \n');
-  return fs.list('tasks');
-})
-.then(function (tasks) {
-  console.log('screenshots are being taken… \n');
-  var done = [];
-
-  jsOnly(tasks).forEach(function (task) {
-    var path = 'casperjs run.js --web-security=no ' + task,
-        result = exec(path);
-
-    console.log('start ' + task + ' task \n');
-    
-    result
-    .then(function (msg) {
-      console.log(task + ' task completed');
-      console.log(msg.stdout);
+        promiseChain = promiseChain.then(promiseLink);
     })
-    .fail(function (msg) {
-      console.error(task + ' failed');
-      // console.error(msg.error);
-      // stdout is, in fact, more interesting, than error msg, even when task failed
-      console.log(msg.stdout);
-      process.exit();
-    });
 
-    done.push(result);
-  });
+    return promiseChain;
+}
 
-  return q.all(done);
-})
-.then(function () {
-  console.log('all tasks executed. screenshots are taken \n');
+var program = function() {
+    q.fcall(qForEach(fs.removeTree.bind(fs), directories))
 
-  var imagesLists = ['candidate', 'current'].map(function (dir) {
-    return fs.list(dir);
-  });
+        .then(
+            qForEach(fs.makeDirectory.bind(fs), directories))
 
-  return q.all(imagesLists);
-})
-.then(function (imagesLists) {
-  console.log('pediff is calculating differences between your screenshots, master… \n');
+        .then(
+            qForEach(fs.makeDirectory.bind(fs), innerDirectories))
 
-  var promiseChain = q.fcall(function(){});
+        .then(
+            qForEach(function(file) {
+                fs.write(file, '')
+            }, jsonFiles))
 
-  imagesLists = imagesLists.map(function (list) {
-    return imagesOnly(list);
-  });
+        .then(
+            step(fs.list.bind(fs, 'tasks'), 'hello sir/madame. peddif is ready to work'))
 
-  imagesLists[0].forEach(function (image) {
+        .then(promiseResult(tools.jsOnly))
 
-    var promiseLink = function () {
-      var file = image,
-          current = 'current/' + file, 
-          diff = 'diff/' + file,
-          candidate = 'candidate/' + file,
-          deffered = q.defer();
+        .then(step(qForEach(function(task) {
+            var path = 'casperjs run.js --web-security=no ' + task,
+                result = tools.exec(path);
 
-      equateImagesHeight([current, candidate])
-      .then(function () {
-        return compareImages([dirify(current), dirify(candidate)], dirify(diff))
-      })
-      .then(function (res) {
-        var diffFactor = String(10 * (1 - res.equality)).replace('.','').substring(0, 8),
-            moved = [];
+            prompt('executing ' + task + ' task');
 
-        moved.push(fs.move(current, 'current/' + diffFactor + '_' + file));
-        moved.push(fs.move(candidate, 'candidate/' + diffFactor + '_' + file));
-        moved.push(fs.move(diff, 'diff/' + diffFactor + '_' + file));
+            return result
+                .then(function(msg) {
+                    prompt(task + ' task completed', '» ');
+                })
+                .fail(function(msg) {
+                    console.error(task + ' failed');
+                    // console.error(msg.error);
+                    // stdout is, in fact, more interesting, than error msg, even when task failed
+                    console.log(msg.stdout);
+                    process.exit();
+                });
+        }), 'starting tasks execution'))
 
-        deffered.resolve(q.all(moved));
-      });     
+        .then(function() {
+            prompt('all tasks executed. screenshots are taken');
 
-      return deffered.promise;
-    };
+            var imagesLists = ['candidate', 'current'].map(function(dir) {
+                return fs.list(dir);
+            });
 
-    promiseChain = promiseChain.then(promiseLink);
-  });
+            return q.all(imagesLists);
+        })
 
-  return promiseChain;
-})
-.then(function () {
-  console.log('the time has come. previews are being generated \n');
+        .then(function(imagesLists) {
+            prompt('calculating differences between screenshots');
 
-  var promiseChain = q.fcall(function(){});
+            var promiseChain = q.fcall(function() {});
 
-  directories.forEach(function (dir) {
-    var promiseLink = function () {
-      var deffered = q.defer();
+            imagesLists = imagesLists.map(function(list) {
+                return tools.imagesOnly(list);
+            });
 
-      fs.list(dir)
-      .then(function (list) {
-        var stripped = [];
+            imagesLists[0].forEach(function(image) {
+                var promiseLink = function() {
+                    var file = image,
+                        current = 'current/' + file,
+                        diff = 'diff/' + file,
+                        candidate = 'candidate/' + file,
+                        deffered = q.defer();
 
-        imagesOnly(list).forEach(function (image) {
-          stripped.push(stripToJpg(dir + '/' + image));
-        });
+                    tools.equateImagesHeight([current, candidate])
+                        .then(function() {
+                            return tools.compareImages([tools.dirify(current), tools.dirify(candidate)], tools.dirify(diff))
+                        })
+                        .then(function(res) {
+                            var diffFactor = String(10 * (1 - res.equality)).replace('.', '').substring(0, 8),
+                                moved = [];
 
-        deffered.resolve(q.all(stripped));
-      })      
+                            moved.push(fs.move(current, 'current/' + diffFactor + '_' + file));
+                            moved.push(fs.move(candidate, 'candidate/' + diffFactor + '_' + file));
+                            moved.push(fs.move(diff, 'diff/' + diffFactor + '_' + file));
 
-      return deffered.promise;
-    }
+                            deffered.resolve(q.all(moved));
+                        });
 
-    promiseChain = promiseChain.then(promiseLink);
-  })  
+                    return deffered.promise;
+                };
 
-  return promiseChain;
-})
-.then(function (chain) {
-  var promiseChain = q.fcall(function(){});
+                promiseChain = promiseChain.then(promiseLink);
+            });
 
-  directories.forEach(function (dir) {
-    var promiseLink = function () {
-      var deffered = q.defer();
+            return promiseChain;
+        })
 
-      fs.list(dir)
-      .then(function (list) {
-        var moved = [];
+        .then(step(qChain.bind(this, function(dir) {
+            var deffered = q.defer();
 
-        pngOnly(list).forEach(function (image) {
-          moved.push(fs.move(dir + '/' + image, dir + '/hq/' + image));
-        });
+            fs.list(dir)
+                .then(function(list) {
+                    var stripped = [];
 
-        deffered.resolve(q.all(moved));
-      })      
+                    tools.imagesOnly(list).forEach(function(image) {
+                        stripped.push(tools.stripToJpg(dir + '/' + image));
+                    });
 
-      return deffered.promise;
-    }
+                    deffered.resolve(q.all(stripped));
+                })
 
-    promiseChain = promiseChain.then(promiseLink);
-  })  
+            return deffered.promise;
+        }, directories), 'generating previews'))
 
-  return promiseChain;
-})
-.then(function () {
-  console.log('now relax yourself and let me generate your report… \n');
-  return exec('casperjs report.js');
-})
-.then(function (res) {
-  return exec('casperjs coverage.js');
-})
-.then(function (res) {
-  return fs.list('diff');
-})
-.then(function (list) {
-  var screensTaken = imagesOnly(list).length;
-  console.log('aye sir! pediff has finished his work! \n');
-  console.log(screensTaken + ' screenshots has been taken');
-  console.timeEnd('work took me');
-  console.log('\nthank you for your cooperation. bye');
-})
-.fail(function (error) {
-  console.error(error)
-})
-.done();
+        .then(step(qChain.bind(this, function(dir) {
+            var deffered = q.defer();
+
+            fs.list(dir).then(function(list) {
+                var moved = [];
+
+                tools.pngOnly(list).forEach(function(image) {
+                    moved.push(fs.move(dir + '/' + image, dir + '/hq/' + image));
+                });
+
+                deffered.resolve(q.all(moved));
+            })
+
+            return deffered.promise;
+        }, directories), 'preparing images'))
+
+        .then(function() {
+            prompt('generating report');
+            return tools.exec('casperjs report.js');
+        })
+
+        .then(function(res) {
+            return tools.exec('casperjs coverage.js');
+        })
+
+        .then(function(res) {  
+            return fs.list('diff');
+        })
+
+        .then(function(list) {
+            var screensTaken = tools.imagesOnly(list).length * 2;
+
+            prompt('aye sir! work is finished\n');
+            prompt('info:'.title);
+            prompt(screensTaken + ' screenshots has been taken');
+            console.timeEnd('› '.tick + 'work took me');
+            prompt('thanks for cooperation');
+        })
+
+        .fail(function(error) {
+            console.error(error);
+            if (error.errno === 34) {
+                prompt('tryin again');
+                program();
+            }
+        })
+        .done();
+};
+
+program();

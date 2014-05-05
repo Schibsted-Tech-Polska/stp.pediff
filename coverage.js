@@ -7,61 +7,73 @@ require('./coverage/route');
 require('./coverage/routeVariant');
 require('./coverage/test');
 
-var fs = require('fs');
-var utils = require('utils');
-var pediffConfig = require('./config');
 
-var coverageConfig = pediffConfig.coverage;
+// Good to know that PhantomJS, so Casper too,
+// uses own fs module, not Node fs
+var fs = require('fs'),
+    utils = require('utils'),
+    pediffConfig = require('./config'),
+
+    coverageConfig = pediffConfig.coverage;
 
 if(coverageConfig !== false) {
     //collect routes
-    var routesJSON = eval("("+fs.read(coverageConfig.routes)+')');
-    var routes = [];
-    for(var i=0;i<routesJSON.length;i++) {
-        routes.push(new Route(routesJSON[i].path.replace(/\(\/:/g,'/(:'),routesJSON[i].name));
-    }
+    var routesJSON = JSON.parse(fs.read(coverageConfig.routes).replace(/\n|\r/g, ""));
+
+    var routes = routesJSON.map(function(route) {
+        return new Route(route.path.replace(/\(\/:/g,'/(:'), route.name);
+    });
 
     //collect tasks
-    var taskFiles = fs.list('tasks');
-    var tasks = [];
-    var tasksOptions = pediffConfig.options;
+    var taskFiles = fs.list('tasks'),
+        tasks = [],
+        tasksOptions = pediffConfig.options;
 
-    for(var i=0;i<taskFiles.length;i++) {
-        var filename = taskFiles[i];
+
+    tasks = taskFiles.map(function(filename) {
+        var task, config = {}, mediaKeys;
 
         try {
-            var task = require('./tasks/'+filename);
-        } catch(e) { continue; }
+            task = require('./tasks/'+filename)
+        } catch (e) {
+            return void 0
+        };
 
-        var config = {};
-        utils.mergeObjects(config,tasksOptions);
-        utils.mergeObjects(config,task.config);
+        utils.mergeObjects(config, tasksOptions);
+        utils.mergeObjects(config, task.config);
 
-        var media = [];
-        for(var j=0;j<config.viewportSize.length;j++) {
-            media.push(config.viewportSize[j].width+'x'+config.viewportSize[j].height);
-        }
-        for(var key in config.media) {
-            if(config.media[key])
-                media.push(key);
-        }
+
+        mediaKeys = Object.keys(config.media)
+            .filter(function(key) {
+                return config.media[key];
+            });
+
+        media = config.viewportSize
+            .map(function(size) {
+                return size.width + 'x' + size.height;
+            })
+            .concat(mediaKeys);
 
         var path = (typeof(config.path) !== 'undefined') ? config.path : '';
 
-        tasks.push(new Test(path.replace('#!/',''),media,filename));
-    }
+        // filename
+        return new Test(path.replace('#!/',''), media, filename);
+    })
+    // null/undefined filter
+    .filter(function(x) { return x });
 
-    //test routes
-    for(var i=0;i<routes.length;i++) {
-        routes[i].test(tasks);
-    }
+    // test routes
+    routes.forEach(function(route) {
+        route.test(tasks);
+    });
 } else {
     routes = false;
 }
 
-var report = eval("("+fs.read('report.json')+')');
+var report = JSON.parse(fs.read('report.json').replace(/\n|\r/g, ""));
+
 report.coverage = routes;
 
-fs.write('report.json',JSON.stringify(report),'w');
+fs.write('report.json', JSON.stringify(report), 'w');
 
 phantom.exit();
