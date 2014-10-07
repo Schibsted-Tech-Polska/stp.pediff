@@ -29,13 +29,6 @@ classic unit tests and only occasionally catchable by manual review. For more de
 see this great talk by Brett Slatkin at Air Mozilla:
 https://air.mozilla.org/continuous-delivery-at-google/
 
-## Pediff in action:
-
-![Pediff example](https://dl.dropboxusercontent.com/u/10807323/static/pediff.gif)
-
-Normal use case would be to compare production version of your application with candidate one.
-Example above is using Norwegian and Swedish version of Google homepage as a base for comparison.
-
 ## Dependencies
 *   Unix-like operating system with Bash shell
 *   [Casperjs](http://casperjs.org/) 1.1.0 or newer
