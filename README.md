@@ -111,9 +111,8 @@ module.exports = {
 
 ## Reports
 Pediff generates convenient reports by default. Just open `report/index.html` file with your browser.
-
-![Pediff report](https://dl.dropboxusercontent.com/u/10807323/static/pediffreport.png)
-_Example: Diff view between Swedish and Norwegian versions of Google homepage._
+![Pediff example](https://dl.dropboxusercontent.com/u/10807323/pediff_report.jpg)
+_Example: Diff view between consecutive deployments of [VGTV](http://www.vgtv.no) (difference in video impressions picked up)._
 
 ### Report's anatomy
 
