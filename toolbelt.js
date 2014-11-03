@@ -44,7 +44,7 @@ var imageSize = function imageSize(image) {
                 path: image,
                 size: value
             });
-        };
+        }
     });
 
     return deffered.promise;
@@ -59,7 +59,7 @@ var extentImage = function extentImage(image, size) {
                 deffered.reject(new Error(error));
             } else {
                 deffered.resolve(image);
-            };
+            }
         });
 
     return deffered.promise;
@@ -77,17 +77,18 @@ var equateImagesHeight = function equateImagesHeight(images) {
 
     q.all(sizes)
         .then(function(images) {
+            var lower, higher;
             if (images[0].size.height > images[1].size.height) {
-                var lower = 1,
-                    higher = 0;
+                lower = 1;
+                higher = 0;
             } else if (images[0].size.height < images[1].size.height) {
-                var lower = 0,
-                    higher = 1;
+                lower = 0;
+                higher = 1;
             } else {
                 deffered.resolve(images);
 
                 return deffered.promise;
-            };
+            }
 
             extentImage(images[lower].path, images[higher].size)
                 .then(function(image) {
@@ -121,9 +122,9 @@ var compareImages = function compareImages(images, file) {
                         isEqual: isEqual,
                         equality: equality
                     });
-                };
+                }
             });
-        };
+        }
     });
 
     return deffered.promise;
@@ -145,7 +146,7 @@ var stripToJpg = function stripToJpg(image, quality) {
                 deffered.reject(new Error(error));
             } else {
                 deffered.resolve(image);
-            };
+            }
         });
 
     return deffered.promise;
@@ -165,7 +166,7 @@ var exec = function exec(command) {
                 stdout: stdout,
                 stderr: stderr
             });
-        };
+        }
     });
 
     return deffered.promise;
@@ -186,4 +187,4 @@ module.exports = {
     toJpg: toJpg,
     stripToJpg: stripToJpg,
     exec: exec
-}
+};
