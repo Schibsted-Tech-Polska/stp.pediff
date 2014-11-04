@@ -7,11 +7,11 @@
     "url": "https://github.com/aheckmann/gm.git"
   },
   "dependencies": {
-    "phantomjs": ">=1.8.2",
-    "casperjs": ">= 1.1.0-beta2",
-    "gm": ">= 1.14.2",
-    "q": ">= 1.0.0",
-    "q-io": ">= 1.11.0",
-    "colors": ">= 0.6.2"
+    "phantomjs": ">=1.9.*",
+    "casperjs": ">= 1.1.0-beta3",
+    "gm": ">= 1.17.x",
+    "q": ">= 1.0.x",
+    "q-io": ">= 1.11.x",
+    "colors": ">= 1.x.x"
   }
 }

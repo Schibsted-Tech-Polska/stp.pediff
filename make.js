@@ -1,8 +1,5 @@
 var fs = require('q-io/fs'),
-    path = require('path'),
-    gm = require('gm'),
     q = require('q'),
-    proc = require('child_process'),
     tools = require('./toolbelt'),
     colors = require('colors');
 
@@ -14,15 +11,13 @@ colors.setTheme({
 
 var prompt = function prompt(log, tick) {
     console.log((tick ? tick.tick : '› '.tick) + log);
-}
+};
 
 console.time('› '.tick + 'work took me');
 
 var directories = ['candidate', 'current', 'diff'],
-    innerDirectories = ['candidate/hq', 'current/hq', 'diff/hq',
-        'candidate/html', 'current/html', 'candidate/html/failed',
-        'current/html/failed'
-    ],
+    innerDirectories = ['candidate/hq', 'current/hq', 'diff/hq', 'candidate/html', 'current/html'],
+    innerDirectoriesLevel2 = ['candidate/html/failed', 'current/html/failed'],
     jsonFiles = ['report.json', 'paths.json'];
 
 var qForEach = function qForEach(func, list) {
@@ -35,14 +30,14 @@ var qForEach = function qForEach(func, list) {
 
         return q.all(arr);
     }
-}
+};
 
 var step = function step(func, tick) {
     return function(res) {
         prompt(tick ? tick : 'taking next step');
         return res ? func(res) : func();
     }
-}
+};
 
 var promiseResult = function promiseResult(func) {
     return function(res) {
@@ -50,7 +45,7 @@ var promiseResult = function promiseResult(func) {
         deffered.resolve(func(res));
         return deffered.promise;
     }
-}
+};
 
 var qChain = function qChain(func, list) {
     var promiseChain = q.fcall(function() {});
@@ -59,20 +54,27 @@ var qChain = function qChain(func, list) {
         var promiseLink = func.bind(this, listEl);
 
         promiseChain = promiseChain.then(promiseLink);
-    })
+    });
 
     return promiseChain;
-}
+};
+
+var removeTreeIfDirExists = function (path) {
+    return fs.exists(path)
+        .then(function (exists) {
+            if(exists) {
+                prompt(path +' directory deleted');
+                return fs.removeTree(path);
+            }
+        });
+};
 
 var program = function() {
-    q.fcall(qForEach(fs.removeTree.bind(fs), directories))
 
-        .then(
-            qForEach(fs.makeDirectory.bind(fs), directories))
-
-        .then(
-            qForEach(fs.makeDirectory.bind(fs), innerDirectories))
-
+    q.fcall(qForEach(removeTreeIfDirExists, directories))
+        .then(qForEach(fs.makeDirectory.bind(fs), directories))
+        .then(qForEach(fs.makeDirectory.bind(fs), innerDirectories))
+        .then(qForEach(fs.makeDirectory.bind(fs), innerDirectoriesLevel2))
         .then(
             qForEach(function(file) {
                 fs.write(file, '')
@@ -165,7 +167,7 @@ var program = function() {
                     });
 
                     deffered.resolve(q.all(stripped));
-                })
+                });
 
             return deffered.promise;
         }, directories), 'generating previews'))
@@ -181,7 +183,7 @@ var program = function() {
                 });
 
                 deffered.resolve(q.all(moved));
-            })
+            });
 
             return deffered.promise;
         }, directories), 'preparing images'))
@@ -195,7 +197,7 @@ var program = function() {
             return tools.exec('casperjs coverage.js');
         })
 
-        .then(function(res) {  
+        .then(function(res) {
             return fs.list('diff');
         })
 
@@ -209,14 +211,14 @@ var program = function() {
             prompt('thanks for cooperation');
         })
 
-        .fail(function(error) {
-            console.error(error);
-            if (error.errno === 34) {
-                prompt('tryin again');
+    .fail(function(error) {
+        console.error(error);
+        if (error.errno === 34) {
+            prompt('tryin again');
                 program();
-            }
-        })
-        .done();
+        }
+    })
+    .done();
 };
 
 program();

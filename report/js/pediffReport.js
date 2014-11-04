@@ -5,7 +5,7 @@ PediffReport = function (data, options) {
     this.options.cacheBuster = data.cacheBuster;
     this.options.environmentsPaths = data.environments;
     this.init();
-}
+};
 
 PediffReport.prototype = {
     data: null,
@@ -361,11 +361,11 @@ PediffReport.prototype = {
     },
 
     diffToPercent: function (diff) {
-        return (diff === -1) ? 'N/A' : (100 - Math.ceil(parseInt(diff) / 1000000)) + '%';
+        return (diff === -1) ? 'N/A' : (Math.floor(parseInt(diff) / 1000000)) + '%';
     },
 
     diffToLevel: function (diff) {
-        return (diff === -1) ? 0 : (100 - Math.ceil(parseInt(diff) / 10000000) * 10);
+        return (diff === -1) ? 0 : (Math.floor(parseInt(diff) / 10000000) * 10);
     },
 
     displayName: function (name) {
