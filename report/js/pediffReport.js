@@ -361,11 +361,11 @@ PediffReport.prototype = {
     },
 
     diffToPercent: function (diff) {
-        return (diff === -1) ? 'N/A' : (Math.floor(parseInt(diff) / 1000000)) + '%';
+        return (diff === -1) ? 'N/A' : Math.floor(parseInt(diff) / 100) + '%';
     },
 
     diffToLevel: function (diff) {
-        return (diff === -1) ? 0 : (Math.floor(parseInt(diff) / 10000000) * 10);
+        return (diff === -1) ? 0 : Math.floor(parseInt(diff) / 1000) * 10;
     },
 
     displayName: function (name) {

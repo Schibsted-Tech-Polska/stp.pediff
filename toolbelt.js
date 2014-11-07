@@ -105,25 +105,14 @@ var equateImagesHeight = function equateImagesHeight(images) {
 var compareImages = function compareImages(images, file) {
     var deffered = q.defer();
 
-    // gonna be a bit ugly, but there’s some bug in gm.compare()
-    // it dosen’t return any info when has options object provided.
-    // do not change without checking, please
-    gm.compare(images[0], images[1], function(error, isEqual, equality, raw) {
-        if (error) {
-            deffered.reject(new Error(error));
+    gm.compare(images[0], images[1], {highlightColor: 'red2', file: file}, function (err, isEqual, equality) {
+        if (err) {
+            deffered.reject(new Error(err));
         } else {
-            gm.compare(images[0], images[1], {
-                file: file
-            }, function(error) {
-                if (error) {
-                    deffered.reject(new Error(error));
-                } else {
-                    deffered.resolve({
-                        isEqual: isEqual,
-                        equality: equality
-                    });
-                }
-            });
+            deffered.resolve({
+                isEqual: isEqual,
+                equality: equality
+            })
         }
     });
 

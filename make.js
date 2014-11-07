@@ -136,8 +136,14 @@ var program = function() {
                             return tools.compareImages([tools.dirify(current), tools.dirify(candidate)], tools.dirify(diff))
                         })
                         .then(function(res) {
-                            var diffFactor = String(10 * (1 - res.equality)).replace('.', '').substring(0, 8),
-                                moved = [];
+                            var diffFactor, moved = [];
+                            if(res.equality === 0) {
+                                diffFactor = '10000';
+                            } else if(res.equality === 1) {
+                                diffFactor = '00001';
+                            } else {
+                                diffFactor = (1 - res.equality).toString().replace('.', '').substr(1,4);
+                            }
 
                             moved.push(fs.move(current, 'current/' + diffFactor + '_' + file));
                             moved.push(fs.move(candidate, 'candidate/' + diffFactor + '_' + file));
