@@ -34,6 +34,23 @@ https://air.mozilla.org/continuous-delivery-at-google/
 *   [Casperjs](http://casperjs.org/) 1.1.0 or newer
 *   ImageMagick [compare](http://www.imagemagick.org/script/compare.php) tool
 
+## Getting Started
+1.  Download the project to a place of your convenience
+2.  run
+    ```bash
+    $ ./pediff.sh
+    ```
+3.  use static server to host entire directory
+    ```bash
+    $ http-server #npm install -g http-server
+    #or
+    $ python -m SimpleHTTPServer #python 2.x
+    $ python -m http.server #python 3.x
+    #or
+    $ ruby -run -e httpd . -p 8080
+    ```
+4.  go to [http://localhost:8080/report/](http://localhost:8080/report/)
+
 ## Usage
 1.  Download the project to a place of your convenience
 2.  Rename `config.js-dist` to `config.js` and set the `environments` values so that `candidate` key
