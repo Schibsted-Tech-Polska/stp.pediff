@@ -1,0 +1,32 @@
+module.exports = {
+    debug: false,
+    specDir: './spec/',
+    resultsDir: './results/',
+    environments: [
+        {
+            name: 'test',
+            baseUrl: 'http://google.com/'
+        },
+        {
+            name: 'prod',
+            baseUrl: 'http://google.no/'
+        }
+    ],
+    viewports: [
+        {
+            name: 'mobile',
+            width: 320,
+            height: 480
+        },
+        {
+            name: 'tablet',
+            width: 768,
+            height: 1024
+        },
+        {
+            name: 'web',
+            width: 1280,
+            height: 1024
+        }
+    ]
+};

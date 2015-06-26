@@ -1,11 +1,6 @@
-candidate/*
-current/*
-diff/*
+/.idea
+/node_modules
 .DS_Store
-tasks/
-!tasks/home.js-dist
-config.js
-paths.json
-report.json
-routes.json
-junit.xml
+/config.js
+/spec
+/results

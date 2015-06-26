@@ -1,0 +1,25 @@
+{
+  "name": "pediff",
+  "version": "2.0.0",
+  "description": "Perceptual difference testing tool",
+  "main": "index.js",
+  "bin": {
+    "pediff": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Schibsted Tech Polska Sp. z o.o.",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^0.9.0",
+    "custom-logger": "^0.3.0",
+    "get-port": "^1.0.0",
+    "jpeg-js": "^0.1.1",
+    "lodash": "^2.4.1",
+    "png-differ": "0.0.1",
+    "png-jpg": "0.0.1",
+    "spooky": "^0.2.5",
+    "websocket": "^1.0.14"
+  }
+}
