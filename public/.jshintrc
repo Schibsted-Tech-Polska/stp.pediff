@@ -1,0 +1,20 @@
+{
+    "indent": 4,
+    "bitwise": true,
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "immed": true,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "noempty": true,
+    "undef": true,
+    "browser": true,
+    "jquery": true,
+    "unused": true,
+    "trailing": true,
+    "onevar": true,
+    "nonstandard": true,
+    "predef": ["define", "require", "_", "Backbone", "Modernizr", "$", "jQuery"]
+}

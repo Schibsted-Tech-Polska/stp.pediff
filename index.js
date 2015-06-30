@@ -1,9 +1,9 @@
 var Pediff = require('./lib/pediff.js'),
+    Server = require('./lib/server.js'),
     parseConfig = require('./lib/config.js'),
     config = require('./config.js'),
     instance;
 
-// TODO: start a live websockets server if live option is set
 // TODO: command line configuration
 // TODO: load pediff.js as config file by default
 // TODO: running individual specs from command line
@@ -13,10 +13,16 @@ var defaults = {
     specDir: 'spec',
     resultsDir: 'results',
     parallelLimit: 18,
-    debug: false
+    debug: false,
+    live: true
 };
 
 config = parseConfig(config, defaults);
 
 instance = new Pediff(config);
-instance.runAll();
+
+if(config.live) {
+    new Server(config, instance);
+} else {
+    instance.runAll();
+}
