@@ -19,4 +19,4 @@ var defaults = {
 config = parseConfig(config, defaults);
 
 instance = new Pediff(config);
-instance.start();
+instance.runAll();
