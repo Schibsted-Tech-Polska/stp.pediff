@@ -1,0 +1,4 @@
+<div class="col s6 name"><%= model.get('name') %></div>
+<% model.get('results').each(function(result){ %>
+<div class="col s<%= 6/model.get('results').length %> result <%= result.getClass() %>"></div>
+<% }) %>

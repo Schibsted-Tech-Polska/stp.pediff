@@ -1,0 +1,20 @@
+    Pediff Report <span class="badge"><i class="material-icons">history</i> <%= model.get('duration') %></span>
+<div class="specs">
+    <div class="row spec-header">
+        <div class="col s6 name">
+            spec
+        </div>
+        <% _.each(model.get('viewports'), function(viewport, index){ %>
+        <div class="col s<%= 6/model.get('viewports').length %> viewport"><%= viewport.name
+            %>
+        </div>
+        <% }) %>
+    </div>
+    <% collection.each(function(spec){ %>
+    <div class="row spec <%= spec.getClass() %>"></div>
+    <% }) %>
+</div>
+
+<div class="card-action">
+    <a class="btn btn-large red lighten-3 white-text" href="#">Run all specs</a>
+</div>

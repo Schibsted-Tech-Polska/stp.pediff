@@ -1,28 +1,35 @@
-var gulp = require('gulp');
-var plugins = require('gulp-load-plugins')();
-var fs = require('fs');
+var gulp = require('gulp'),
+    g = require('gulp-load-plugins')();
+
+
+gulp.task('sass', function() {
+    gulp.src('./public/css/scss/**/*.scss')
+        .pipe(g.plumber())
+        .pipe(g.sourcemaps.init())
+        .pipe(g.sass({
+            outputStyle: 'compressed'
+        }))
+        .pipe(g.sourcemaps.write('./'))
+        .pipe(gulp.dest('./public/css'))
+        .pipe(g.livereload());
+});
 
 gulp.task('watch', function() {
-    plugins.livereload.listen();
-    gulp.watch('public/index.html', []).on('change', function(file) {
-        plugins.livereload.changed(file.path);
+    g.livereload.listen();
+    gulp.watch('./public/css/scss/**/*.scss', ['sass']);
+    gulp.watch([
+        './public/index.html',
+        './public/templates/**/*.html',
+        './public/js/**/*.js'
+    ], function(event) {
+        if(event.path) {
+            g.livereload.changed(event.path);
+        }
     });
-    gulp.watch('public/js/**/*', []).on('change', function(file) {
-        plugins.livereload.changed(file.path);
-    });
-    gulp.watch('public/css/**/*.scss', ['styles']);
 });
 
-gulp.task('styles', function() {
-    return gulp.src('public/css/**/*.scss')
-        .pipe(plugins.compass({
-            css: 'public/css',
-            sass: 'public/css',
-            image: 'public/img',
-            font: 'public/fonts'
-        }))
-        .pipe(gulp.dest('public/css'))
-        .pipe(plugins.livereload());
-});
+gulp.task('build', [,
+    'sass'
+]);
 
 gulp.task('default', ['watch']);

@@ -1,7 +1,6 @@
 define([
-    'config',
     'models/result'
-], function(config, Result) {
+], function(Result) {
     var Collection = Backbone.Collection.extend({
         model: Result
     });

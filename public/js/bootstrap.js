@@ -2,9 +2,14 @@ require.config({
     baseUrl: 'js',
     enforceDefine: true,
     paths: {
-        'text': 'vendor/requirejs/text'
+        'text': 'vendor/requirejs/text',
+        'templates': '../templates',
+        'materialize': 'vendor/materialize'
     },
     shim: {
+        'materialize': {
+            exports: '$.fn'
+        }
     },
     urlArgs: "bust=" + (new Date()).getTime()
 });
@@ -12,6 +17,6 @@ require.config({
 define([
     'application',
     'router'
-], function (Application, Router) {
+], function(Application, Router) {
     Application.initialize(new Router());
 });

@@ -1,6 +1,9 @@
 define([], function() {
     var Model = Backbone.Model.extend({
-        defaults: {}
+        defaults: {},
+        getClass: function() {
+            return 'result-' + this.get('viewport').name;
+        }
     });
     return Model;
 });

@@ -14,6 +14,8 @@ define([
 
                 Socket.initialize();
 
+                $('.pediff-logo').addClass('in');
+
                 this.router.start();
             },
             setCurrentView: function(View, options) {

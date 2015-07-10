@@ -1,0 +1,171 @@
+@import '//fonts.googleapis.com/icon?family=Material+Icons';
+@import '//fonts.googleapis.com/css?family=Roboto:400,300,100,500,700';
+
+@import 'materialize';
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+main, footer, header {
+    padding-left: 240px;
+}
+
+.logo {
+    height: 110px;
+
+    &:hover {
+        background: transparent!important;
+    }
+}
+
+.pediff-logo {
+    display: inline-block;
+    position: relative;
+    font-size: 40px;
+    vertical-align: middle;
+    z-index: 2;
+    margin: 20px 0 40px 55px;
+
+    span {
+        font-size: 1em;
+        color: #fff;
+        position: absolute;
+        display: inline-block;
+        left: 0;
+        top: 0;
+        width: (50/30)+em;
+        line-height: (50/30)+em;
+        text-align: center;
+        font-weight: 300;
+        -webkit-font-smoothing: subpixel-antialiased;
+
+        &:after {
+            content: "DIFF";
+            font-size: 0.6em;
+            color: #000;
+            position: absolute;
+            display: inline-block;
+            left: (83/30)+em;
+            line-height: (50/18)+em;
+            top: 0;
+            font-weight: 300;
+            -webkit-transition: all 0.3s ease-in-out 0.8s;
+            opacity: 0;
+            -webkit-transform: translate(-40px,0);
+            z-index: -2;
+        }
+    }
+
+    &:before, &:after{
+        content: "";
+        display: inline-block;
+        width: (46/30)+em;
+        height: (50/30)+em;
+        background: rgba(color('red', 'lighten-1'), 0.7);
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        -webkit-transition: all 0.5s ease-in-out;
+        border: 1px solid rgba(255,255,255,0.1);
+        z-index: -1;
+    }
+
+    &:before {
+        margin-top: -(4/50)+em;
+        -webkit-transform: translate(-100px,0);
+    }
+    &:after {
+        margin-top: (4/50)+em;
+        -webkit-transform: translate(100px,0);
+    }
+
+    &.in {
+        &:before {
+            opacity: 1;
+            -webkit-transform: translate(0,0) skew(10deg) rotate3d(-1,1,0, 180deg);
+        }
+        &:after {
+            opacity: 1;
+            -webkit-transform: translate(0,0) skew(-10deg) rotate3d(1,-1,0, 180deg);
+        }
+        span:after {
+            opacity: 1;
+            -webkit-transform: translate(0,0);
+        }
+    }
+}
+
+
+header {
+    height: $toast-height;
+    line-height: $toast-height;
+
+    .tabs {
+        width: 400px!important;
+    }
+
+    .viewports {
+        float: left;
+    }
+    .environments {
+        float: right;
+    }
+}
+
+.details {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    left: 280px;
+
+    .difference {
+        text-align: center;
+        line-height: $button-height;
+    }
+}
+
+.navigation {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    left: 280px;
+
+    .tabs {
+        width: 40%!important;
+        background: transparent;
+
+        .tab a {
+            color: color('grey', 'lighten-3');
+
+            &:hover,
+            &.active {
+                color: #fff;
+            }
+        }
+
+        .indicator {
+            background: #fff;
+        }
+    }
+
+    .viewports {
+        float: right;
+    }
+
+    .environments {
+        float: left;
+    }
+}
+
+.material-icons {
+    vertical-align: middle;
+    margin-top: -3px;
+}

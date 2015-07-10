@@ -14,7 +14,7 @@ var defaults = {
     resultsDir: 'results',
     parallelLimit: 18,
     debug: false,
-    live: true
+    live: false
 };
 
 config = parseConfig(config, defaults);
