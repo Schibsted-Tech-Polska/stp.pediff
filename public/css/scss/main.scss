@@ -9,10 +9,6 @@ body {
     flex-direction: column;
 }
 
-main {
-    flex: 1 0 auto;
-}
-
 main, footer, header {
     padding-left: 240px;
 }
@@ -168,4 +164,12 @@ header {
 .material-icons {
     vertical-align: middle;
     margin-top: -3px;
+}
+
+html, body, .current-view-container {
+    height: 100%;
+}
+
+.card-offset {
+    margin-top: 40%;
 }

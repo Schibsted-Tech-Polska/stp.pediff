@@ -5,8 +5,31 @@ define(['collections/results'], function(ResultsCollection) {
             data.results = new ResultsCollection(data.results, {parse: true});
             return data;
         },
-        getClass: function() {
-            return 'spec-' + this.get('name')
+        getAverageDiff: function() {
+            return Math.ceil(this.get('results').reduce(function(sum, result) {
+                return sum + result.get('diff');
+            }, 0) / this.get('results').length);
+        },
+        getTextColor: function() {
+            var diff = this.getAverageDiff(),
+                color = 'green';
+
+            if(diff > 25) {
+                color = 'yellow';
+            }
+
+            if(diff > 50) {
+                color = 'orange';
+            }
+
+            if(diff > 75) {
+                color = 'red';
+            }
+
+            return color;
+        },
+        getSlug: function() {
+            return this.get('name').replace(/ /g, '-')
         }
     });
     return Model;

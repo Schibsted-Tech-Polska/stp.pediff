@@ -22,46 +22,25 @@
         <div class="pediff-logo"><span>PE</span></div>
     </div>
 
-    <ul>
-        <li>
-            <a href="#!">
-                homepage
-                <span class="badge green-text">0%</span>
-            </a>
-        </li>
-        <li>
-            <a href="#!">
-                search
-                <span class="badge orange-text">30%</span>
-            </a>
-        </li>
-        <li>
-            <a href="#!">
-                video
-                <span class="badge orange-text">50%</span>
-            </a>
-        </li>
-        <li>
-            <a href="#!">
-                error page
-                <span class="badge red-text">90%</span>
-            </a>
-        </li>
+    <ul class="specs-view-container">
     </ul>
 
-    <a class="btn btn-large blue lighten-1 btn-block white-text" href="#"><i class="material-icons">collections</i> Run
-        all specs</a>
+    <a class="btn btn-large blue lighten-1 btn-block disabled white-text" href="#">
+        <i class="material-icons">collections</i>
+        Run all specs
+    </a>
 </nav>
 
 
 <main>
-    <div class="container">
+    <div class="container current-view-container">
         <div class="navigation">
             <div class="card-panel row blue lighten-1">
                 <ul class="tabs viewports">
                     <li class="tab col s2"><a href="#test1"><i class="material-icons">phone_iphone</i> mobile</a></li>
                     <li class="tab col s2"><a href="#test2"><i class="material-icons">tablet_mac</i> tablet</a></li>
-                    <li class="tab col s2"><a class="active" href="#test4"><i class="material-icons">desktop_mac</i> web</a></li>
+                    <li class="tab col s2"><a class="active" href="#test4"><i class="material-icons">desktop_mac</i> web</a>
+                    </li>
                 </ul>
                 <ul class="tabs environments">
                     <li class="tab col s2"><a class="active" href="#test4">diff</a></li>
@@ -73,21 +52,21 @@
 
         <div class="details">
             <div class="card-panel blue lighten-1 white-text row">
-                    <div class="col s3 difference">
-                        <i class="material-icons">compare</i> 25% difference
-                    </div>
-                    <div class="col s3">
-                        <a href="#" class="btn btn-block grey lighten-2 grey-text text-darken-3">
-                            <i class="material-icons">launch</i> View on beta
-                        </a>
-                    </div>
-                    <div class="col s3">
-                        <a href="#" class="btn btn-block grey lighten-2 grey-text text-darken-3">
-                            <i class="material-icons">launch</i> View on prod
-                        </a>
-                    </div>
+                <div class="col s3 difference">
+                    <i class="material-icons">compare</i> 25% difference
+                </div>
                 <div class="col s3">
-                    <a href="#" class="btn btn-block white grey-text text-darken-4">
+                    <a href="#" class="btn btn-block grey lighten-2 grey-text text-darken-3">
+                        <i class="material-icons">launch</i> View on beta
+                    </a>
+                </div>
+                <div class="col s3">
+                    <a href="#" class="btn btn-block grey lighten-2 grey-text text-darken-3">
+                        <i class="material-icons">launch</i> View on prod
+                    </a>
+                </div>
+                <div class="col s3">
+                    <a href="#" class="btn btn-block white grey-text text-darken-4 disabled">
                         <i class="material-icons">refresh</i> Rerun
                     </a>
                 </div>

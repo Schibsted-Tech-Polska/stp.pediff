@@ -1,0 +1,13 @@
+<div class="card card-offset">
+    <div class="card-content">
+        <span class="card-title black-text"><i class="material-icons">assignment</i> Report found</span>
+
+        <p>
+            We found a report for the last run from <%= model.getDateStarted() %>, which analyzed <%= model.get('screenshotsCount') %> screenshots in <%= model.get('duration') %> seconds.
+        </p>
+        <br/>
+        <p>
+            <i class="material-icons">keyboard_arrow_left</i> Use the sidebar navigation to view the results.
+        </p>
+    </div>
+</div>
