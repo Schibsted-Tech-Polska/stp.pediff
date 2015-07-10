@@ -68,7 +68,7 @@ main, footer, header {
         display: inline-block;
         width: (46/30)+em;
         height: (50/30)+em;
-        background: rgba(color('red', 'lighten-1'), 0.7);
+        background: rgba(color('blue', 'lighten-1'), 0.7);
         position: absolute;
         top: 0;
         left: 0;
@@ -123,7 +123,7 @@ header {
 .details {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    right: 40px;
     left: 280px;
 
     .difference {
@@ -135,7 +135,7 @@ header {
 .navigation {
     position: fixed;
     top: 20px;
-    right: 20px;
+    right: 40px;
     left: 280px;
 
     .tabs {
