@@ -21,9 +21,9 @@ define(['collections/results'], function(ResultsCollection) {
             return this.get('results').pluck('viewport');
         },
         getDiff: function(viewport) {
-            return this.get('results').find(function(model) {
+            return Math.ceil(this.get('results').find(function(model) {
                 return model.get('viewport').name === viewport;
-            }).get('diff');
+            }).get('diff'));
         }
     });
     return Model;

@@ -139,6 +139,7 @@ header {
 
         .tab a {
             color: color('grey', 'lighten-3');
+            position: relative;
 
             &:hover,
             &.active {
@@ -177,13 +178,16 @@ html, body, .current-view-container {
 
 .diff-badge {
     @include box-sizing(border-box);
-    padding: 0 6px;
+    padding: 0 3px;
     text-align: center;
     font-weight: 300;
-    font-size: 0.8rem;
-    line-height: 2rem;
-    background-color: #fff;
-    border-radius: 2px;
+    font-size: 10px;
+    line-height: 12px;
+    color: #fff;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
     display: inline-block;
 }
 

@@ -6,6 +6,7 @@
                 <a href="#test1" data-toggle="viewport--<%= viewport.name %>">
                     <i class="material-icons">phone_iphone</i>
                     <%= viewport.name %>
+                    <span class="diff-badge <%= utils.getDiffColor(model.getDiff(viewport.name)) %>"><%= model.getDiff(viewport.name) %>%</span>
                 </a>
             </li>
             <% }) %>
