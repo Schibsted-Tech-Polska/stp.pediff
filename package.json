@@ -1,38 +1,40 @@
 {
-  "name": "pediff",
-  "version": "2.0.0",
-  "description": "Perceptual difference testing tool",
-  "main": "index.js",
-  "bin": {
-    "pediff": "index.js"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Schibsted Tech Polska Sp. z o.o.",
-  "license": "ISC",
-  "dependencies": {
-    "async": "^0.9.0",
-    "custom-logger": "^0.3.0",
-    "get-port": "^1.0.0",
-    "io": "^0.1.6",
-    "jpeg-js": "^0.1.1",
-    "lodash": "^2.4.1",
-    "node-static": "^0.7.6",
-    "png-differ": "0.0.1",
-    "png-jpg": "0.0.2",
-    "socket.io": "^1.3.5",
-    "spooky": "^0.2.5",
-    "websocket": "^1.0.14"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-livereload": "^3.8.0",
-    "gulp-load-plugins": "^1.0.0-rc.1",
-    "gulp-plumber": "^1.0.1",
-    "gulp-rename": "^1.2.2",
-    "gulp-requirejs-optimize": "^0.1.3",
-    "gulp-sass": "^2.0.3",
-    "gulp-sourcemaps": "^1.5.2"
-  }
+    "name": "pediff",
+    "version": "2.0.0",
+    "description": "Perceptual difference testing tool",
+    "main": "index.js",
+    "bin": {
+        "pediff": "index.js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Schibsted Tech Polska Sp. z o.o.",
+    "license": "ISC",
+    "dependencies": {
+        "async": "^0.9.0",
+        "custom-logger": "^0.3.0",
+        "get-port": "^1.0.0",
+        "gulp-sequence": "^0.4.0",
+        "io": "^0.1.6",
+        "jpeg-js": "^0.1.1",
+        "lodash": "^2.4.1",
+        "node-static": "^0.7.6",
+        "png-differ": "0.0.1",
+        "png-jpg": "0.0.2",
+        "socket.io": "^1.3.5",
+        "spooky": "^0.2.5",
+        "websocket": "^1.0.14"
+    },
+    "devDependencies": {
+        "browser-sync": "^2.8.0",
+        "gulp": "^3.9.0",
+        "gulp-livereload": "^3.8.0",
+        "gulp-load-plugins": "^1.0.0-rc.1",
+        "gulp-plumber": "^1.0.1",
+        "gulp-rename": "^1.2.2",
+        "gulp-requirejs-optimize": "^0.1.3",
+        "gulp-sass": "^2.0.3",
+        "gulp-sourcemaps": "^1.5.2"
+    }
 }

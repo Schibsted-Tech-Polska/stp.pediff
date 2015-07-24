@@ -1,13 +1,13 @@
 define([
     'views/run',
-    'views/result',
+    'views/spec',
     'views/error'
-], function(RunView, ResultView, ErrorView) {
+], function(RunView, SpecView, ErrorView) {
     var Router = Backbone.Router.extend({
         routes: {
             "!/error": "error",
             "!/run": "run",
-            "!/result/:slug": "result"
+            "!/spec/:slug": "spec"
         },
 
         start: function() {
@@ -18,8 +18,8 @@ define([
             this.trigger('viewChange', RunView);
         },
 
-        result: function(slug) {
-            this.trigger('viewChange', ResultView, slug);
+        spec: function(slug) {
+            this.trigger('viewChange', SpecView, slug);
         },
 
         error: function() {

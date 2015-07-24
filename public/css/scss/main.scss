@@ -14,7 +14,7 @@ main, footer, header {
 }
 
 .logo {
-    height: 110px;
+    height: 140px;
 
     &:hover {
         background: transparent!important;
@@ -27,7 +27,7 @@ main, footer, header {
     font-size: 40px;
     vertical-align: middle;
     z-index: 2;
-    margin: 20px 0 40px 55px;
+    margin: 40px 0 40px 55px;
 
     span {
         font-size: 1em;
@@ -135,7 +135,6 @@ header {
     left: 280px;
 
     .tabs {
-        width: 40%!important;
         background: transparent;
 
         .tab a {
@@ -154,10 +153,12 @@ header {
 
     .viewports {
         float: right;
+        width: 40%;
     }
 
     .environments {
         float: left;
+        width: 40%;
     }
 }
 
@@ -172,4 +173,39 @@ html, body, .current-view-container {
 
 .card-offset {
     margin-top: 40%;
+}
+
+.diff-badge {
+    @include box-sizing(border-box);
+    padding: 0 6px;
+    text-align: center;
+    font-weight: 300;
+    font-size: 0.8rem;
+    line-height: 2rem;
+    background-color: #fff;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.result-view {
+    padding: 130px 0;
+
+    .images {
+        text-align: center;
+
+        img {
+            display: none;
+            max-width: 100%;
+
+            &.active {
+                display: inline-block;
+            }
+        }
+    }
+
+    &.ready {
+        .loader {
+            display: none;
+        }
+    }
 }

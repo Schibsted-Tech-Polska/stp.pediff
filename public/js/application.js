@@ -1,9 +1,10 @@
 define([
     'socket',
-    'views/specs',
+    'utils',
+    'views/specs-list',
     'models/run',
     'collections/specs'
-], function(Socket, SpecsView, Run, SpecsCollection) {
+], function(Socket, utils, SpecsListView, Run, SpecsCollection) {
     var instance,
         Application = {
             initialize: function(router) {
@@ -26,32 +27,46 @@ define([
             },
             initializeRouter: function(router) {
                 this.router = router;
-                this.router.on('viewChange', function(view, options) {
-                    this.setCurrentView(view, options);
-                }, this);
-                this.router.start();
+
+                this.listenToOnce(this, 'ready', function() {
+                    this.router.on('viewChange', function(view, options) {
+                        this.setCurrentView(view, options);
+                    }, this);
+
+                    this.router.start();
+                }.bind(this));
             },
             runStaticReport: function() {
-                var url = window.location.href.replace('public/index.html', 'results/report.json');
+                var url = window.location.href;
+
+                url = url.replace(window.location.hash, '');
+
+                if(url.indexOf('public/index.html') > -1) {
+                    url = url.replace('public/index.html', 'results/report.json');
+                } else {
+                    url += 'results/report.json';
+                }
+
                 $.get(url)
                     .done(function(data) {
+                        utils.storage.use('application').set('report', data);
+
                         this.run = new Run(data, {parse: true});
 
-                        this.specsView = new SpecsView({
-                            el: $('.specs-view-container'),
+                        this.specsView = new SpecsListView({
+                            el: $('.specs-list-view-container'),
                             collection: new SpecsCollection(data.specs, {parse: true})
                         });
                         this.specsView.render();
 
-                        this.router.navigate('!/run', {
-                            trigger: true,
-                            replace: true
-                        });
+                        this.listenTo(this.router, 'route', this.specsView.trigger.bind(this.specsView, 'route'));
+
+                        this.trigger('ready');
                     }.bind(this))
                     .fail(function() {
                         this.router.navigate('!/error', {
                             trigger: true,
-                            replace: true
+                            replace: false
                         });
                     }.bind(this));
             },
@@ -61,7 +76,7 @@ define([
                     this.currentView.stopListening();
                     this.$container.empty();
 
-                    if(this.currentView.destroy) {
+                    if(_.isFunction(this.currentView.destroy)) {
                         this.currentView.destroy();
                     }
                 }
