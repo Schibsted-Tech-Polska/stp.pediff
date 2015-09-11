@@ -1,7 +1,10 @@
 <div class="card-panel blue lighten-1 white-text row">
     <div class="col s8">
         <% _.each(environments, function(environment){ %>
-        <a href="<%= environment.baseUrl + model.get('url') %>" target="_<%= environment.name %>" class="btn grey lighten-2 grey-text text-darken-3">
+        <a href="<%= environment.baseUrl + model.get('url') %>"
+           target="_<%= environment.name %>"
+           class="btn grey lighten-2 grey-text text-darken-3"
+           data-tooltip="<%= environment.baseUrl + model.get('url') %>">
             <i class="material-icons">launch</i> <%= environment.name %>
         </a>
         <% }) %>

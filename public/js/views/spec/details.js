@@ -18,6 +18,8 @@ define([
                 model: this.model,
                 environments: report.config.environments
             }));
+
+            $('[data-tooltip]').tooltip();
         }
     });
     return View;

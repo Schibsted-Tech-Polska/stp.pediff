@@ -1,6 +1,8 @@
 <li class="hidden">
     <a href="#!/spec/<%= model.getSlug() %>">
         <%= model.get('name') %>
-        <span class="badge <%= utils.getDiffColor(model.getAverageDiff()) %>-text"><%= model.getAverageDiff() %>%</span>
+        <span class="badge <%= utils.getDiffColor(model.getAverageDiff()) %>-text"
+              data-tooltip="<%= model.getAverageDiff() %>% of difference"
+              data-position="right"><%= model.getAverageDiff() %>%</span>
     </a>
 </li>

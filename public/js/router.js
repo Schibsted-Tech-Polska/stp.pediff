@@ -6,6 +6,8 @@ define([
     var Router = Backbone.Router.extend({
         routes: {
             "!/error": "error",
+            "!": "run",
+            "": "run",
             "!/run": "run",
             "!/spec/:slug": "spec"
         },

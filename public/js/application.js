@@ -42,7 +42,7 @@ define([
                 url = url.replace(window.location.hash, '');
 
                 if(url.indexOf('public/index.html') > -1) {
-                    url = url.replace('public/index.html', 'results/report.json');
+                    url = url.replace('public/index.html', 'public/results/report.json');
                 } else {
                     url += 'results/report.json';
                 }

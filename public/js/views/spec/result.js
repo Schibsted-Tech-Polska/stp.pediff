@@ -38,7 +38,7 @@ define([
             var html = '';
 
             _.each(this.model.get('screenshots'), function(screenshot, index) {
-                html += '<img data-environment="' + index + '" src="' + utils.getImageUrl(screenshot.hi) + '"/>';
+                html += '<img data-environment="' + index + '" src="' + utils.getImageUrl(screenshot.lo) + '"/>';
             }.bind(this));
 
             this.$('.images').html(html);
