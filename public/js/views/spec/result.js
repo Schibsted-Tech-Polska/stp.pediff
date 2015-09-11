@@ -18,7 +18,7 @@ define([
             this.$el.html(_.template(viewTemplate));
 
             if(this.fetched) {
-                this.renderImages();
+                this.renderImages(environment);
                 this.trigger('ready');
                 this.$el.addClass('ready');
             } else {

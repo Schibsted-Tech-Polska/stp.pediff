@@ -61,7 +61,10 @@ define([
 
             this.detailsView.render();
             this.navigationView.render();
-            this.getCurrentResultView().render();
+
+            this.currentEnvironment = this.navigationView.getCurrentEnvironment();
+
+            this.getCurrentResultView().render(this.currentEnvironment);
         },
 
         getCurrentResultView: function(viewport) {

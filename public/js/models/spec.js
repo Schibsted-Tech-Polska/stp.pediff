@@ -15,10 +15,17 @@ define(['collections/results'], function(ResultsCollection) {
             return this.get('name').replace(/ /g, '-')
         },
         getEnvironments: function() {
-            return _.keys(this.get('results').at(0).get('screenshots'));
+            var environments = _.keys(this.get('results').at(0).get('screenshots'));
+
+            if(_.isArray(environments) && environments.indexOf('diff') > -1) {
+                environments = ['diff'].concat(_.without(environments, 'diff'));
+            }
+
+            return environments;
         },
         getViewports: function() {
-            return this.get('results').pluck('viewport');
+            var viewports = this.get('results').pluck('viewport');
+            return viewports;
         },
         getDiff: function(viewport) {
             return Math.ceil(this.get('results').find(function(model) {

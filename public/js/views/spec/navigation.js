@@ -19,6 +19,9 @@ define([
 
             this.$tabs = this.$('ul.tabs').tabs();
         },
+        getCurrentEnvironment: function() {
+            return this.$('.environments .tab .active').data('toggle').replace('environment--', '');
+        },
         onTabClick: function(event) {
             var $el = $(event.currentTarget);
 
