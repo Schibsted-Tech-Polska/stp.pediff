@@ -1,7 +1,7 @@
 module.exports = {
     debug: false,
     specDir: './spec/',
-    resultsDir: './results/',
+    resultsDir: './public/results/',
     environments: [
         {
             name: 'test',

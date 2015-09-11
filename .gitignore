@@ -3,5 +3,5 @@
 .DS_Store
 /config.js
 /spec
-/results
+/public/results
 /.sass-cache
