@@ -20,9 +20,8 @@
         "async": "^1.4.2",
         "custom-logger": "^0.3.0",
         "get-port": "^1.0.0",
-        "gulp-sass": "^2.0.4",
         "gulp-sequence": "^0.4.0",
-        "io": "^0.1.6",
+        "io": "0.0.9",
         "jpeg-js": "^0.1.1",
         "lodash": "^3.10.1",
         "meow": "^3.3.0",
@@ -42,7 +41,7 @@
         "gulp-plumber": "^1.0.1",
         "gulp-rename": "^1.2.2",
         "gulp-requirejs-optimize": "^0.3.0",
-        "gulp-sass": "^2.0.3",
+        "gulp-sass": "^2.0.4",
         "gulp-sourcemaps": "^1.5.2"
     }
 }
