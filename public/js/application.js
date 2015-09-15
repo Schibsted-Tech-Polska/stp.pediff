@@ -21,8 +21,6 @@ define([
                     this.runStaticReport();
                 }
 
-                // TODO: keyboard navigation layer
-
                 this.initializeRouter(router);
             },
             initializeRouter: function(router) {
