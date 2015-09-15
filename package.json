@@ -21,7 +21,6 @@
         "custom-logger": "^0.3.0",
         "get-port": "^1.0.0",
         "gulp-sequence": "^0.4.0",
-        "io": "0.0.9",
         "jpeg-js": "^0.1.1",
         "lodash": "^3.10.1",
         "meow": "^3.3.0",
