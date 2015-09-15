@@ -4,6 +4,7 @@ var Pediff = require('./lib/pediff.js'),
     Server = require('./lib/server.js'),
     parseConfig = require('./lib/config.js'),
     meow = require('meow'),
+    path = require('path'),
     config,
     instance;
 
@@ -36,7 +37,7 @@ try {
     if(cli.flags.config) {
         config = require(cli.flags.config);
     } else {
-        config = require('pediff.js');
+        config = require(path.join(process.cwd(), 'pediff.js'));
     }
 } catch (e) {
     if(cli.flags.config) {
