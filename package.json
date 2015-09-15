@@ -3,6 +3,7 @@
     "version": "2.0.0",
     "description": "Perceptual difference testing tool",
     "main": "index.js",
+    "preferGlobal": true,
     "bin": {
         "pediff": "index.js"
     },
@@ -19,6 +20,7 @@
         "io": "^0.1.6",
         "jpeg-js": "^0.1.1",
         "lodash": "^2.4.1",
+        "meow": "^3.3.0",
         "node-static": "^0.7.6",
         "png-crop": "0.0.0",
         "png-differ": "git://github.com/noodny/png-diff.git",
