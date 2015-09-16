@@ -35,7 +35,7 @@ if(!cli.input.length && !cli.flags.live || cli.input[0] !== 'run' || !cli.input[
 
 try {
     if(cli.flags.config) {
-        config = require(cli.flags.config);
+        config = require(path.join(process.cwd(), cli.flags.config));
     } else {
         config = require(path.join(process.cwd(), 'pediff.js'));
     }
