@@ -22,8 +22,8 @@ var defaults = {
 var cli = meow({
     help: [
         'Usage',
-        '  pediff [options] run all',
-        '  pediff [options] run <spec>[ <spec2> <spec...> ]',
+        '  pediff run all [options]',
+        '  pediff run <spec>[ <spec2> <spec...> ] [options]',
         '',
         'Options',
         '  --config <path> - tells pediff where to look for a configuration file (by default it\'s pediff.js in root directory)',
@@ -102,6 +102,7 @@ if(cli.flags.live) {
                     fs.writeFileSync(src, file, {
                         encoding: 'utf-8'
                     });
+                    process.exit(0);
                 }
             });
         });
