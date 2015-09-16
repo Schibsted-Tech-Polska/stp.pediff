@@ -1,6 +1,6 @@
 module.exports = {
     specDir: __dirname + '/spec',
-    resultsDir: __dirname + '/../public/results',
+    resultsDir: process.cwd() + '/pediff',
     environments: [
         {
             name: '.com',

@@ -2,9 +2,12 @@
 
 var Pediff = require('./lib/pediff.js'),
     Server = require('./lib/server.js'),
+    Proxy = require('./lib/proxy.js'),
     parseConfig = require('./lib/config.js'),
     meow = require('meow'),
     path = require('path'),
+    cpr = require('cpr'),
+    rmdir = require('rmdir-recursive'),
     config,
     instance;
 
@@ -22,6 +25,7 @@ var cli = meow({
         '  pediff [options] run <spec>[ <spec2> <spec...> ]',
         '',
         'Options',
+        '  --report        - generate a static report, viewable without running an http server',
         //'  --live          - runs a webserver for dynamic testing',
         '  --config <path> - tells pediff where to look for a configuration file (by default it\'s pediff.js in root directory)',
         '  --debug         - outputs additional information'
@@ -52,15 +56,38 @@ config = parseConfig(config, defaults);
 
 config.debug = !!cli.flags.debug;
 
+if(cli.flags.report) {
+    config.reportDir = config.resultsDir;
+    config.resultsDir = path.join(config.resultsDir, 'results/');
+
+    rmdir.sync(config.reportDir);
+}
+
 instance = new Pediff(config);
 
-//if(cli.flags.live) {
-//    new Server(config, instance);
-//} else {
+if(cli.flags.live) {
+    new Server(config, instance);
+} else {
     if(cli.input[1] === 'all') {
         instance.runAll();
     } else {
         var specs = cli.input.splice(1, cli.input.length - 1);
         instance.runBundle(specs);
     }
-//}
+
+    if(cli.flags.report) {
+        Proxy.once('bundle:finished', function(data) {
+            var report = data.results;
+
+            cpr(__dirname + '/public/', config.reportDir, {
+                deleteFirst: false,
+                overwrite: false,
+                confirm: true
+            }, function(err) {
+                if(err) {
+                    throw new Error(err);
+                }
+            });
+        });
+    }
+}
