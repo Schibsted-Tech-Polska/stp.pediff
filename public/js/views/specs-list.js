@@ -1,9 +1,12 @@
 define([
+    'jquery',
+    'backbone',
+    'lodash',
     'socket',
     'utils',
     'views/keyboardInterface',
     'text!templates/specs-list-item.html'
-], function(Socket, utils, InterfaceView, itemTemplate) {
+], function($, Backbone, _, Socket, utils, InterfaceView, itemTemplate) {
     var View = InterfaceView.extend({
         events: {},
         initialize: function() {

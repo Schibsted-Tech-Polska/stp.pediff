@@ -1,4 +1,7 @@
 define([
+    'jquery',
+    'backbone',
+    'lodash',
     'utils',
     'application',
     'socket',
@@ -7,7 +10,7 @@ define([
     'views/spec/navigation',
     'views/spec/result',
     'text!templates/spec.html'
-], function(utils, Application, Socket, Spec, DetailsView, NavigationView, ResultView, viewTemplate) {
+], function($, Backbone, _, utils, Application, Socket, Spec, DetailsView, NavigationView, ResultView, viewTemplate) {
     var View = Backbone.View.extend({
         events: {},
         initialize: function(options, slug) {

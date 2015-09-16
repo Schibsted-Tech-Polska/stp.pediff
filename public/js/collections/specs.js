@@ -1,6 +1,9 @@
 define([
+    'jquery',
+    'backbone',
+    'lodash',
     'models/spec'
-], function(Spec) {
+], function($, Backbone, _, Spec) {
     var Collection = Backbone.Collection.extend({
         model: Spec,
         parse: function(data) {

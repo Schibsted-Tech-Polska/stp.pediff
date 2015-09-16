@@ -1,10 +1,13 @@
 define([
+    'jquery',
+    'backbone',
+    'lodash',
     'socket',
     'utils',
     'views/specs-list',
     'models/run',
     'collections/specs'
-], function(Socket, utils, SpecsListView, Run, SpecsCollection) {
+], function($, Backbone, _, Socket, utils, SpecsListView, Run, SpecsCollection) {
     var instance,
         Application = {
             initialize: function(router) {
@@ -14,14 +17,14 @@ define([
 
                 $('.pediff-logo').addClass('in');
 
+                this.initializeRouter(router);
+
                 if(Socket.enabled) {
                     // handle websocket communication
                 } else {
                     // TODO: override Backbone.Sync to use a loaded json file as data source
                     this.runStaticReport();
                 }
-
-                this.initializeRouter(router);
             },
             initializeRouter: function(router) {
                 this.router = router;
@@ -34,18 +37,29 @@ define([
                     this.router.start();
                 }.bind(this));
             },
-            runStaticReport: function() {
-                var url = window.location.href;
+            loadReport: function() {
+                if(window.report) {
+                    var deferred = new $.Deferred();
 
-                url = url.replace(window.location.hash, '');
+                    deferred.resolve(window.report);
 
-                if(url.indexOf('public/index.html') > -1) {
-                    url = url.replace('public/index.html', 'public/results/report.json');
+                    return deferred;
                 } else {
-                    url += 'results/report.json';
-                }
+                    var url = window.location.href;
 
-                $.get(url)
+                    url = url.replace(window.location.hash, '');
+
+                    if(url.indexOf('public/index.html') > -1) {
+                        url = url.replace('public/index.html', 'public/results/report.json');
+                    } else {
+                        url += 'results/report.json';
+                    }
+
+                    return $.get(url);
+                }
+            },
+            runStaticReport: function() {
+                this.loadReport()
                     .done(function(data) {
                         utils.storage.use('application').set('report', data);
 

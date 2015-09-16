@@ -1,8 +1,11 @@
 define([
+    'jquery',
+    'backbone',
+    'lodash',
     'utils',
     'views/keyboardInterface',
     'text!templates/spec/navigation.html'
-], function(utils, InterfaceView, viewTemplate) {
+], function($, Backbone, _, utils, InterfaceView, viewTemplate) {
     var View = InterfaceView.extend({
         events: {
             'click .tab a': 'onTabClick'

@@ -1,4 +1,8 @@
-define([], function() {
+define([
+    'jquery',
+    'backbone',
+    'lodash'
+], function($, Backbone, _) {
     var instance,
         Socket = {
             initialize: function() {

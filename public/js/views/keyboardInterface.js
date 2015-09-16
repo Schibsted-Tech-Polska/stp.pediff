@@ -1,5 +1,8 @@
 define([
-], function() {
+    'jquery',
+    'backbone',
+    'lodash'
+], function($, Backbone, _) {
     var codes = {
         'left':  37,
         'right': 39,

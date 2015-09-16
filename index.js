@@ -79,7 +79,7 @@ if(cli.flags.live) {
     if(cli.flags.report) {
         Proxy.once('bundle:finished', function(data) {
             var report = JSON.stringify(data.results),
-                script = '<script type="text/javascript">window.report='+report+'</script>';
+                script = '<script type="text/javascript">window.report=' + report + '</script>';
 
             cpr(__dirname + '/public/', config.reportDir, {
                 deleteFirst: false,
@@ -94,7 +94,10 @@ if(cli.flags.live) {
                         encoding: 'utf-8'
                     });
 
-                    file = file.replace('</main>', '</main>' + script);
+                    file = file.replace('</main>', '</main>' + script)
+                        .replace('js/vendor/require.js', 'js/bootstrap.min.js')
+                        .replace('<!-- production', '')
+                        .replace('production -->', '');
 
                     fs.writeFileSync(src, file, {
                         encoding: 'utf-8'

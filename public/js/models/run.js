@@ -1,4 +1,9 @@
-define(['utils'], function(utils) {
+define([
+    'jquery',
+    'backbone',
+    'lodash',
+    'utils'
+], function($, Backbone, _, utils) {
     var Model = Backbone.Model.extend({
         defaults: {},
         parse: function(data) {

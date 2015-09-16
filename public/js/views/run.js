@@ -1,8 +1,11 @@
 define([
+    'jquery',
+    'backbone',
+    'lodash',
     'application',
     'socket',
     'text!templates/run.html'
-], function(Application, Socket, viewTemplate) {
+], function($, Backbone, _, Application, Socket, viewTemplate) {
     var View = Backbone.View.extend({
         events: {},
         render: function() {

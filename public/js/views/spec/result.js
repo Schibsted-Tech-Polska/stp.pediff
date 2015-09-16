@@ -1,7 +1,10 @@
 define([
+    'jquery',
+    'backbone',
+    'lodash',
     'utils',
     'text!templates/result.html'
-], function(utils, viewTemplate) {
+], function($, Backbone, _, utils, viewTemplate) {
     var View = Backbone.View.extend({
         events: {},
         initialize: function() {

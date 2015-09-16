@@ -1,4 +1,9 @@
-define(['collections/results'], function(ResultsCollection) {
+define([
+    'jquery',
+    'backbone',
+    'lodash',
+    'collections/results'
+], function($, Backbone, _, ResultsCollection) {
     var Model = Backbone.Model.extend({
         defaults: {},
         parse: function(data) {

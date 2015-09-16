@@ -30,6 +30,28 @@ gulp.task('sass', function() {
         .pipe(browserSync.stream());
 });
 
+gulp.task('scripts', function() {
+    return gulp.src('./public/js/almond.js')
+        .pipe(plugins.requirejsOptimize({
+            enforceDefine: true,
+            name: 'almond',
+            include: ['globals', 'bootstrap'],
+            insertRequire: ['bootstrap'],
+            mainConfigFile: './public/js/bootstrap.js',
+            optimize: 'none',
+            paths: {
+                'text': 'vendor/requirejs/text',
+                'templates': '../templates',
+                'jquery': 'empty:',
+                'lodash': 'empty:',
+                'backbone': 'empty:',
+                'materialize': 'vendor/materialize.amd'
+            },
+            out: "bootstrap.min.js"
+        }))
+        .pipe(gulp.dest('public/js'));
+});
+
 gulp.task('watch', function() {
     gulp.watch('./public/css/scss/**/*.scss', ['sass']);
     gulp.watch([

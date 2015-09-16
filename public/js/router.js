@@ -1,8 +1,11 @@
 define([
+    'jquery',
+    'backbone',
+    'lodash',
     'views/run',
     'views/spec',
     'views/error'
-], function(RunView, SpecView, ErrorView) {
+], function($, Backbone, _, RunView, SpecView, ErrorView) {
     var Router = Backbone.Router.extend({
         routes: {
             "!/error": "error",
