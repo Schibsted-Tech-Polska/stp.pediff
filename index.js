@@ -13,8 +13,8 @@ var Pediff = require('./lib/pediff.js'),
     instance;
 
 var defaults = {
-    specDir: 'spec',
-    resultsDir: 'results',
+    specDir: path.join(process.cwd(), 'spec/'),
+    resultsDir: path.join(process.cwd(), 'results/'),
     parallelLimit: 18,
     live: false
 };
@@ -26,9 +26,9 @@ var cli = meow({
         '  pediff [options] run <spec>[ <spec2> <spec...> ]',
         '',
         'Options',
+        '  --config <path> - tells pediff where to look for a configuration file (by default it\'s pediff.js in root directory)',
         '  --report        - generate a static report, viewable without running an http server',
         //'  --live          - runs a webserver for dynamic testing',
-        '  --config <path> - tells pediff where to look for a configuration file (by default it\'s pediff.js in root directory)',
         '  --debug         - outputs additional information'
     ]
 });
