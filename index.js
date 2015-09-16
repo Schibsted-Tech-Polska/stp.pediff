@@ -8,6 +8,7 @@ var Pediff = require('./lib/pediff.js'),
     path = require('path'),
     fs = require('fs'),
     cpr = require('cpr'),
+    os = require('os'),
     rmdir = require('rmdir-recursive'),
     config,
     instance;
@@ -15,7 +16,7 @@ var Pediff = require('./lib/pediff.js'),
 var defaults = {
     specDir: path.join(process.cwd(), 'spec/'),
     resultsDir: path.join(process.cwd(), 'results/'),
-    parallelLimit: 18,
+    parallelLimit: os.cpus().length * 3,
     live: false
 };
 
