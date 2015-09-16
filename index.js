@@ -30,6 +30,7 @@ var cli = meow({
         '  --config <path> - tells pediff where to look for a configuration file (by default it\'s pediff.js in root directory)',
         '  --report        - generate a static report, viewable without running an http server',
         //'  --live          - runs a webserver for dynamic testing',
+        '  --no-color      - disable output coloring',
         '  --debug         - outputs additional information'
     ]
 });

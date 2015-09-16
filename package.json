@@ -1,6 +1,6 @@
 {
     "name": "pediff",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "description": "Perceptual difference testing tool",
     "main": "index.js",
     "preferGlobal": true,
@@ -19,7 +19,7 @@
     "dependencies": {
         "async": "^1.4.2",
         "cpr": "^0.4.2",
-        "custom-logger": "^0.3.0",
+        "custom-logger": "git://github.com/noodny/custom-logger.git",
         "get-port": "^1.0.0",
         "gulp-sequence": "^0.4.0",
         "jpeg-js": "^0.1.1",
