@@ -6,6 +6,7 @@ var Pediff = require('./lib/pediff.js'),
     parseConfig = require('./lib/config.js'),
     meow = require('meow'),
     path = require('path'),
+    fs = require('fs'),
     cpr = require('cpr'),
     rmdir = require('rmdir-recursive'),
     config,
@@ -77,7 +78,8 @@ if(cli.flags.live) {
 
     if(cli.flags.report) {
         Proxy.once('bundle:finished', function(data) {
-            var report = data.results;
+            var report = JSON.stringify(data.results),
+                script = '<script type="text/javascript">window.report='+report+'</script>';
 
             cpr(__dirname + '/public/', config.reportDir, {
                 deleteFirst: false,
@@ -86,6 +88,17 @@ if(cli.flags.live) {
             }, function(err) {
                 if(err) {
                     throw new Error(err);
+                } else {
+                    var src = path.join(config.reportDir, 'index.html');
+                    var file = fs.readFileSync(src, {
+                        encoding: 'utf-8'
+                    });
+
+                    file = file.replace('</main>', '</main>' + script);
+
+                    fs.writeFileSync(src, file, {
+                        encoding: 'utf-8'
+                    });
                 }
             });
         });
