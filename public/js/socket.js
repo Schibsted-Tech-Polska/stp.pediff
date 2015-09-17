@@ -7,7 +7,9 @@ define([
         Socket = {
             initialize: function() {
                 if(typeof io !== 'undefined') {
+                    /* jshint ignore:start */
                     this.socket = new io(window.location.protocol + '//' + window.location.host);
+                    /* jshint ignore:end */
                     this.socket.on('message', this.trigger.bind(this, 'message'));
                     this.enabled = true;
                 }

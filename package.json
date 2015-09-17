@@ -35,12 +35,14 @@
     "devDependencies": {
         "browser-sync": "^2.9.3",
         "gulp": "^3.9.0",
+        "gulp-jshint": "^1.11.2",
         "gulp-livereload": "^3.8.0",
         "gulp-load-plugins": "^1.0.0-rc.1",
         "gulp-plumber": "^1.0.1",
         "gulp-rename": "^1.2.2",
         "gulp-requirejs-optimize": "^0.3.0",
         "gulp-sass": "^2.0.4",
-        "gulp-sourcemaps": "^1.5.2"
+        "gulp-sourcemaps": "^1.5.2",
+        "jshint-stylish": "^2.0.1"
     }
 }

@@ -42,6 +42,9 @@ define([
     'application',
     'router',
     'materialize'
-], function($, Backbone, _, Application, Router, Materialize) {
+], function($, Backbone, _,
+            Application,
+            Router,
+            /* jshint unused:false */ Materialize) {
     Application.initialize(new Router());
 });

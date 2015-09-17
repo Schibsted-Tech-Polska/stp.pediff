@@ -1,6 +1,6 @@
 var browserSync = require('browser-sync'),
     gulp = require('gulp'),
-    plugins = require('gulp-load-plugins')();
+    $ = require('gulp-load-plugins')();
 
 
 function handleError(err) {
@@ -18,21 +18,21 @@ gulp.task('sync', function() {
 
 gulp.task('sass', function() {
     gulp.src('./public/css/scss/**/*.scss')
-        .pipe(plugins.plumber({
+        .pipe($.plumber({
             errorHandler: handleError
         }))
-        .pipe(plugins.sourcemaps.init())
-        .pipe(plugins.sass({
+        .pipe($.sourcemaps.init())
+        .pipe($.sass({
             outputStyle: 'compressed'
         }))
-        .pipe(plugins.sourcemaps.write('./'))
+        .pipe($.sourcemaps.write('./'))
         .pipe(gulp.dest('./public/css'))
         .pipe(browserSync.stream());
 });
 
 gulp.task('scripts', function() {
     return gulp.src('./public/js/almond.js')
-        .pipe(plugins.requirejsOptimize({
+        .pipe($.requirejsOptimize({
             enforceDefine: true,
             name: 'almond',
             include: ['globals', 'bootstrap'],
@@ -61,8 +61,37 @@ gulp.task('watch', function() {
     ]).on('change', browserSync.reload);
 });
 
+gulp.task('lint', function() {
+    return gulp
+        .src([
+            './lib/*.js',
+            './public/js/*.js',
+            './public/collections/**/*.js',
+            './public/models/**/*.js',
+            './public/utils/**/*.js',
+            './public/views/**/*.js',
+            '!./public/js/bootstrap.min.js',
+            '!./public/js/almond.js'
+        ])
+        .pipe($.jshint())
+        .pipe($.jshint.reporter(require('jshint-stylish')));
+});
+
+gulp.task('watch:lint', ['lint'], function() {
+    gulp.watch([
+        './lib/*.js',
+        './public/js/*.js',
+        './public/collections/**/*.js',
+        './public/models/**/*.js',
+        './public/utils/**/*.js',
+        './public/views/**/*.js',
+        '!./public/js/bootstrap.min.js',
+        '!./public/js/almond.js'
+    ], ['lint']);
+});
+
 gulp.task('build', [,
     'sass'
 ]);
 
-gulp.task('default', plugins.sequence('watch', 'sync'));
+gulp.task('default', $.sequence('watch', 'sync'));

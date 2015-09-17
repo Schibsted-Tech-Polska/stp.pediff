@@ -2,8 +2,9 @@ define(['utils/storage'], function(storage) {
     var utils = {
         format: {
             date: function(date) {
-                var date = new Date(date),
-                    day = date.getDate(),
+                date = new Date(date);
+
+                var day = date.getDate(),
                     month = (date.getMonth().toString().length === 1 ? '0' + date.getMonth() : date.getMonth()),
                     year = date.getFullYear(),
                     hours = date.getHours(),

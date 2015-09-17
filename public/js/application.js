@@ -20,7 +20,7 @@ define([
                 this.initializeRouter(router);
 
                 if(Socket.enabled) {
-                    // handle websocket communication
+                    // TODO: handle websocket communication
                 } else {
                     // TODO: override Backbone.Sync to use a loaded json file as data source
                     this.runStaticReport();
