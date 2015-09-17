@@ -22,7 +22,6 @@
         "custom-logger": "git://github.com/noodny/custom-logger.git",
         "get-port": "^1.0.0",
         "gulp-sequence": "^0.4.0",
-        "jpeg-js": "^0.1.1",
         "lodash": "^3.10.1",
         "meow": "^3.3.0",
         "node-static": "^0.7.6",
@@ -31,8 +30,7 @@
         "png-jpg": "0.0.2",
         "rmdir-recursive": "0.0.1",
         "socket.io": "^1.3.5",
-        "spooky": "git://github.com/noodny/SpookyJS.git",
-        "websocket": "^1.0.14"
+        "spooky": "git://github.com/noodny/SpookyJS.git"
     },
     "devDependencies": {
         "browser-sync": "^2.9.3",
