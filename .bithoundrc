@@ -1,0 +1,5 @@
+{
+    "ignore": [
+        "public/js/almond.js"
+    ]
+}
