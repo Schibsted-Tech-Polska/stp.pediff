@@ -7,9 +7,9 @@ var Pediff = require('./lib/pediff.js'),
     meow = require('meow'),
     path = require('path'),
     fs = require('fs'),
-    cpr = require('cpr'),
     os = require('os'),
     rmdir = require('rmdir-recursive'),
+    copy = require('recursive-copy'),
     config,
     instance;
 
@@ -83,10 +83,14 @@ if(cli.flags.live) {
             var report = JSON.stringify(data.results),
                 script = '<script type="text/javascript">window.report=' + report + '</script>';
 
-            cpr(__dirname + '/public/', config.reportDir, {
-                deleteFirst: false,
-                overwrite: false,
-                confirm: true
+            copy(__dirname + '/public/', config.reportDir, {
+                filter: [
+                    '!css/scss',
+                    '!templates',
+                    '!js/vendor/require*',
+                    '!js/{collections,models,utils,views}',
+                    '!js/{almond,application,bootstrap,globals,router,socket,utils}.js'
+                ]
             }, function(err) {
                 if(err) {
                     throw new Error(err);
