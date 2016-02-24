@@ -18,7 +18,7 @@
     "license": "ISC",
     "dependencies": {
         "async": "^1.4.2",
-        "custom-logger": "git://github.com/noodny/custom-logger.git",
+        "custom-logger": "^0.3.1",
         "get-port": "^1.0.0",
         "gulp-sequence": "^0.4.0",
         "lodash": "^3.10.1",
